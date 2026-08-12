@@ -257,5 +257,29 @@
   "print": 1,
   "email": 1,
   "name": "tijarat-payment-entry-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Item",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "read": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-item-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Item",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-item-supplier"
  }
 ]
