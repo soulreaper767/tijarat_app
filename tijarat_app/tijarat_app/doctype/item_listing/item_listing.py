@@ -19,12 +19,20 @@ class ItemListing(Document):
 			self.currency = frappe.db.get_default("currency") or "PKR"
 
 	def auto_mark_territory(self):
-		"""Leaving Territory blank on a new listing defaults it to the
-		Supplier's primary served territory rather than "all territories" -
-		a supplier who serves more than one territory still gets a sensible
-		default here (their home one) and creates additional listings for
-		the others, same as any other item they list. Only applies on
-		create - never overrides a value someone already chose or is editing."""
+		"""Territory has two distinct blank states, kept separate on purpose
+		so neither meaning gets guessed at: `serves_all_territories` is an
+		explicit, permanent "this listing applies everywhere" choice: it
+		always wins and always clears Territory. Otherwise, an *unset*
+		Territory on a brand-new listing is filled in from the Supplier's
+		primary served territory (Territory Coverage) - a supplier who
+		serves more than one territory still gets a sensible default (their
+		home one) and creates additional listings for the others, same as
+		any other item they list. Never overrides a value someone already
+		chose, and never re-runs on an existing listing being edited."""
+		if self.serves_all_territories:
+			self.territory = None
+			return
+
 		if self.territory or not self.supplier or not self.is_new():
 			return
 

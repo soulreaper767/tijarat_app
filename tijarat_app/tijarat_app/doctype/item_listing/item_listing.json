@@ -9,6 +9,7 @@
   "supplier",
   "column_break_1",
   "territory",
+  "serves_all_territories",
   "is_active",
   "section_break_1",
   "rate",
@@ -46,13 +47,22 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "Where this listing is valid / deliverable. Leave blank if the supplier serves all territories.",
+   "description": "Where this listing is valid / deliverable. Left blank and auto-filled from the supplier's primary served territory unless \"Serves All Territories\" is checked.",
    "fieldname": "territory",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Territory",
-   "options": "Territory"
+   "options": "Territory",
+   "depends_on": "eval:!doc.serves_all_territories"
+  },
+  {
+   "default": "0",
+   "description": "This listing applies everywhere, not just one territory - overrides the auto-fill and clears Territory.",
+   "fieldname": "serves_all_territories",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Serves All Territories"
   },
   {
    "default": "1",
