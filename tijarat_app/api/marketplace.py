@@ -124,8 +124,6 @@ def book_order(customer, lines, booking_channel="Self", delivery_date=None, serv
 			"booked_by": frappe.session.user,
 			"service_package": service_package,
 			"referral_code": referral_code,
-			"primary_supplier": next(iter(suppliers)) if len(suppliers) == 1 else None,
-			"needs_supplier_assignment": 1 if unresolved_items else 0,
 			"items": items,
 		}
 	)
@@ -139,6 +137,25 @@ def book_order(customer, lines, booking_channel="Self", delivery_date=None, serv
 	if not unresolved_items and _within_credit_limit(order):
 		order.submit()
 		auto_submitted = True
+
+	# primary_supplier/needs_supplier_assignment are written last, via a raw
+	# DB update rather than on the doc dict above or via db_set before
+	# submit(): a self-service Customer's own User Permission restricts every
+	# Supplier Link field to *their own* Supplier record (set at
+	# registration), so setting primary_supplier to the *seller's* Supplier
+	# anywhere earlier in this flow would fail permission validation on
+	# insert - and submit()'s internal save() would overwrite an earlier
+	# db_set with the stale in-memory value anyway. Writing here, after every
+	# save()/submit() call has already happened, avoids both problems.
+	frappe.db.set_value(
+		"Sales Order",
+		order.name,
+		{
+			"primary_supplier": next(iter(suppliers)) if len(suppliers) == 1 else None,
+			"needs_supplier_assignment": 1 if unresolved_items else 0,
+		},
+	)
+	order.reload()
 
 	if unresolved_items:
 		_route_to_customer_service(order, unresolved_items)
