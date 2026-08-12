@@ -31,7 +31,7 @@ def login_with_mobile(mobile_no, password):
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def register_trade_party(
 	party_name,
 	contact_person,
@@ -112,8 +112,9 @@ def register_trade_party(
 		contact_doc["email_ids"] = [{"email_id": email, "is_primary": 1}]
 	contact = frappe.get_doc(contact_doc).insert(ignore_permissions=True)
 
+	address_doc = None
 	if address:
-		frappe.get_doc(
+		address_doc = frappe.get_doc(
 			{
 				"doctype": "Address",
 				"address_title": party_name,
@@ -127,7 +128,16 @@ def register_trade_party(
 			}
 		).insert(ignore_permissions=True)
 
-	user = _grant_portal_access(mobile_no, party_name, customer.name, supplier.name, business_type, password)
+	user = _grant_portal_access(
+		mobile_no,
+		party_name,
+		customer.name,
+		supplier.name,
+		contact.name,
+		address_doc.name if address_doc else None,
+		business_type,
+		password,
+	)
 
 	if referral_code and frappe.db.exists("Referral Code", referral_code):
 		frappe.get_doc("Referral Code", referral_code).record_usage()
@@ -176,7 +186,16 @@ def _resolve_territory(city):
 		return parent
 
 
-def _grant_portal_access(mobile_no, full_name, customer_name, supplier_name, business_type=None, password=None):
+def _grant_portal_access(
+	mobile_no,
+	full_name,
+	customer_name,
+	supplier_name,
+	contact_name=None,
+	address_name=None,
+	business_type=None,
+	password=None,
+):
 	email = f"{mobile_no}@tijaratapp.users"
 	# A real login needs a real password - Frappe's User doctype requires an
 	# email-shaped identifier for `name`, which is why the login id is this
@@ -218,20 +237,36 @@ def _grant_portal_access(mobile_no, full_name, customer_name, supplier_name, bus
 
 	user.save(ignore_permissions=True)
 
-	for dt, name in (("Customer", customer_name), ("Supplier", supplier_name)):
+	# User Permission only *restricts which value* of a doctype this user can
+	# touch - it grants nothing by itself. The base read/write grant for
+	# Customer/Supplier/Contact/Address (roles Customer/Supplier) lives in
+	# fixtures/custom_docperm.json; without both halves, native ERPNext flows
+	# that read the party's own record (e.g. Sales Order pulling customer/
+	# contact/address details on save) fail with a PermissionError even
+	# though this looks, at a glance, like it should already work.
+	scoped_records = [("Customer", customer_name), ("Supplier", supplier_name)]
+	if contact_name:
+		scoped_records.append(("Contact", contact_name))
+	if address_name:
+		scoped_records.append(("Address", address_name))
+
+	for dt, name in scoped_records:
 		doc = frappe.get_doc(dt, name)
 		if hasattr(doc, "portal_users") and not any(pu.user == user.name for pu in doc.get("portal_users", [])):
 			doc.append("portal_users", {"user": user.name})
 			doc.save(ignore_permissions=True)
 
-		frappe.get_doc(
-			{
-				"doctype": "User Permission",
-				"user": user.name,
-				"allow": dt,
-				"for_value": name,
-				"apply_to_all_doctypes": 1,
-			}
-		).insert(ignore_permissions=True)
+		if not frappe.db.exists(
+			"User Permission", {"user": user.name, "allow": dt, "for_value": name}
+		):
+			frappe.get_doc(
+				{
+					"doctype": "User Permission",
+					"user": user.name,
+					"allow": dt,
+					"for_value": name,
+					"apply_to_all_doctypes": 1,
+				}
+			).insert(ignore_permissions=True)
 
 	return user

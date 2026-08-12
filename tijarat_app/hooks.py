@@ -68,7 +68,15 @@ fixtures = [
 			[
 				"role",
 				"in",
-				["Rider", "Support Agent", "Territory Manager", "Distributor Admin", "Customer", "Customer Service"],
+				[
+					"Rider",
+					"Support Agent",
+					"Territory Manager",
+					"Distributor Admin",
+					"Customer",
+					"Supplier",
+					"Customer Service",
+				],
 			]
 		],
 	},

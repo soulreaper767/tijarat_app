@@ -92,5 +92,79 @@
   "report": 1,
   "print": 1,
   "name": "tijarat-sales-order-customer-service"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Customer",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-customer-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Supplier",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-supplier-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Contact",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "name": "tijarat-contact-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Contact",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "name": "tijarat-contact-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Address",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "name": "tijarat-address-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Address",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "select": 1,
+  "name": "tijarat-address-supplier"
  }
 ]
