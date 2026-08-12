@@ -1,0 +1,65 @@
+{
+ "creation": "2026-08-12 00:00:00.000000",
+ "doctype": "Workflow",
+ "document_type": "Support Ticket",
+ "is_active": 1,
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "Support Ticket Resolution",
+ "owner": "Administrator",
+ "send_email_alert": 0,
+ "states": [
+  {
+   "allow_edit": "Support Agent",
+   "doc_status": "0",
+   "state": "Open",
+   "style": "Warning"
+  },
+  {
+   "allow_edit": "Support Agent",
+   "doc_status": "0",
+   "state": "In Progress",
+   "style": "Primary"
+  },
+  {
+   "allow_edit": "Support Agent",
+   "doc_status": "0",
+   "state": "Resolved",
+   "style": "Success"
+  },
+  {
+   "allow_edit": "Distributor Admin",
+   "doc_status": "0",
+   "state": "Escalated",
+   "style": "Danger"
+  }
+ ],
+ "transitions": [
+  {
+   "action": "Start Progress",
+   "allowed": "Support Agent",
+   "next_state": "In Progress",
+   "state": "Open"
+  },
+  {
+   "action": "Resolve",
+   "allowed": "Support Agent",
+   "next_state": "Resolved",
+   "state": "In Progress"
+  },
+  {
+   "action": "Escalate",
+   "allowed": "Support Agent",
+   "next_state": "Escalated",
+   "state": "In Progress"
+  },
+  {
+   "action": "Reassign",
+   "allowed": "Distributor Admin",
+   "next_state": "In Progress",
+   "state": "Escalated"
+  }
+ ],
+ "workflow_name": "Support Ticket Resolution",
+ "workflow_state_field": "workflow_state"
+}

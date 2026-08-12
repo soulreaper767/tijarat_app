@@ -1,0 +1,16 @@
+[project]
+name = "tijarat_app"
+authors = [
+    { name = "Sibyl Technologies", email = "hello@tijaratapp.com" }
+]
+description = "Core Tijarat platform: parties, marketplace listings, territory/route management, order booking, commissions, fulfillment, and warehousing-as-a-service."
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = []
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench.dev-dependencies]

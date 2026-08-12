@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "autoname": "field:courier_name",
+ "creation": "2026-08-12 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "courier_name",
+  "is_active",
+  "column_break_1",
+  "coverage_territories",
+  "section_break_1",
+  "api_base_url",
+  "api_key",
+  "api_secret",
+  "section_break_2",
+  "cod_supported",
+  "base_rate",
+  "rate_per_kg",
+  "average_delivery_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "courier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Courier Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "coverage_territories",
+   "fieldtype": "Small Text",
+   "label": "Coverage Notes (territories/cities served)"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "API Credentials"
+  },
+  {
+   "fieldname": "api_base_url",
+   "fieldtype": "Data",
+   "label": "API Base URL"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Data",
+   "label": "API Key"
+  },
+  {
+   "fieldname": "api_secret",
+   "fieldtype": "Password",
+   "label": "API Secret"
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Rate Card"
+  },
+  {
+   "default": "1",
+   "fieldname": "cod_supported",
+   "fieldtype": "Check",
+   "label": "Cash on Delivery Supported"
+  },
+  {
+   "fieldname": "base_rate",
+   "fieldtype": "Currency",
+   "label": "Base Rate (per shipment)"
+  },
+  {
+   "fieldname": "rate_per_kg",
+   "fieldtype": "Currency",
+   "label": "Additional Rate per KG"
+  },
+  {
+   "fieldname": "average_delivery_days",
+   "fieldtype": "Int",
+   "label": "Average Delivery Days"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Courier Partner",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

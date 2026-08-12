@@ -1,0 +1,146 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-08-12 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "customer",
+  "requested_supplier",
+  "column_break_1",
+  "customer_territory",
+  "supplier_territory",
+  "section_break_1",
+  "reason",
+  "workflow_state",
+  "section_break_2",
+  "approved_by",
+  "approved_on",
+  "is_standing_exception"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "requested_supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Requested Supplier (Distributor)",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer.territory",
+   "fieldname": "customer_territory",
+   "fieldtype": "Link",
+   "label": "Customer's Own Territory",
+   "options": "Territory",
+   "read_only": 1
+  },
+  {
+   "fieldname": "supplier_territory",
+   "fieldtype": "Link",
+   "label": "Supplier's Assigned Territory",
+   "options": "Territory"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Reason"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason for Exception",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "workflow_state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_2",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved / Rejected By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Decision Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "If checked, this exception applies to all future orders from this Customer against this Supplier, not just one.",
+   "fieldname": "is_standing_exception",
+   "fieldtype": "Check",
+   "label": "Standing Exception (applies to future orders too)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Territory Exception Request",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Distributor Admin"
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Field Officer"
+  },
+  {
+   "read": 1,
+   "role": "Territory Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Customer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

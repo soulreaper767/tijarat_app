@@ -1,0 +1,227 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"tj_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Tijarat</b></span>\", \"col\": 12}}, {\"id\": \"tj_paragraph\", \"type\": \"paragraph\", \"data\": {\"text\": \"Marketplace listings, territory and route management, order booking, fulfillment, and commissions - the core Tijarat platform.\", \"col\": 12}}, {\"id\": \"tj_shortcut_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing\", \"col\": 3}}, {\"id\": \"tj_shortcut_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Route\", \"col\": 3}}, {\"id\": \"tj_shortcut_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Journey Plan Visit\", \"col\": 3}}, {\"id\": \"tj_shortcut_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Exception Request\", \"col\": 3}}, {\"id\": \"tj_shortcut_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Partner\", \"col\": 3}}, {\"id\": \"tj_shortcut_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Booking\", \"col\": 3}}, {\"id\": \"tj_shortcut_6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Service Package\", \"col\": 3}}, {\"id\": \"tj_shortcut_7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral Code\", \"col\": 3}}, {\"id\": \"tj_shortcut_8\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Trade Scheme\", \"col\": 3}}, {\"id\": \"tj_shortcut_9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Support Ticket\", \"col\": 3}}, {\"id\": \"tj_shortcut_10\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Damaged Goods Entry\", \"col\": 3}}, {\"id\": \"tj_reports_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Reports</b></span>\", \"col\": 12}}, {\"id\": \"tj_shortcut_11\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing Price Comparison\", \"col\": 3}}, {\"id\": \"tj_shortcut_12\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"GMV & Commission Summary\", \"col\": 3}}, {\"id\": \"tj_shortcut_13\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_14\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Lifecycle Funnel\", \"col\": 3}}, {\"id\": \"tj_shortcut_15\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"PJP Compliance\", \"col\": 3}}, {\"id\": \"tj_shortcut_16\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_17\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral & Affiliate Commission\", \"col\": 3}}]",
+ "creation": "2026-08-12 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "buy",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "Tijarat",
+ "links": [],
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Tijarat",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Territory Manager"
+  },
+  {
+   "role": "Distributor Admin"
+  },
+  {
+   "role": "Field Officer"
+  },
+  {
+   "role": "Warehouse Manager"
+  },
+  {
+   "role": "Support Agent"
+  }
+ ],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "label": "Item Listing",
+   "link_to": "Item Listing",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Route",
+   "link_to": "Route",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Journey Plan Visit",
+   "link_to": "Journey Plan Visit",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Territory Exception Request",
+   "link_to": "Territory Exception Request",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Courier Partner",
+   "link_to": "Courier Partner",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Courier Booking",
+   "link_to": "Courier Booking",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Service Package",
+   "link_to": "Service Package",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Referral Code",
+   "link_to": "Referral Code",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Trade Scheme",
+   "link_to": "Trade Scheme",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Support Ticket",
+   "link_to": "Support Ticket",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Damaged Goods Entry",
+   "link_to": "Damaged Goods Entry",
+   "type": "DocType",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "settings"
+  },
+  {
+   "label": "Item Listing Price Comparison",
+   "link_to": "Item Listing Price Comparison",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "GMV & Commission Summary",
+   "link_to": "GMV & Commission Summary",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Territory Performance",
+   "link_to": "Territory Performance",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Lifecycle Funnel",
+   "link_to": "Lifecycle Funnel",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "PJP Compliance",
+   "link_to": "PJP Compliance",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Courier Performance",
+   "link_to": "Courier Performance",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Referral & Affiliate Commission",
+   "link_to": "Referral & Affiliate Commission",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  }
+ ],
+ "title": "Tijarat"
+}

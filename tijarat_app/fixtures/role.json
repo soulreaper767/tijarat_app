@@ -1,0 +1,37 @@
+[
+ {
+  "doctype": "Role",
+  "role_name": "Territory Manager",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Field Officer",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Distributor Admin",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Warehouse Manager",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Rider",
+  "desk_access": 0
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Support Agent",
+  "desk_access": 1
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Customer Service",
+  "desk_access": 1
+ }
+]

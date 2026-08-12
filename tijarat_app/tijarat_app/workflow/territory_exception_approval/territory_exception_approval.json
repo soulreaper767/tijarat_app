@@ -1,0 +1,47 @@
+{
+ "creation": "2026-08-12 00:00:00.000000",
+ "doctype": "Workflow",
+ "document_type": "Territory Exception Request",
+ "is_active": 1,
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "Territory Exception Approval",
+ "owner": "Administrator",
+ "send_email_alert": 0,
+ "states": [
+  {
+   "allow_edit": "Territory Manager",
+   "doc_status": "0",
+   "state": "Pending",
+   "style": "Warning"
+  },
+  {
+   "allow_edit": "Territory Manager",
+   "doc_status": "0",
+   "state": "Approved",
+   "style": "Success"
+  },
+  {
+   "allow_edit": "Territory Manager",
+   "doc_status": "0",
+   "state": "Rejected",
+   "style": "Danger"
+  }
+ ],
+ "transitions": [
+  {
+   "action": "Approve",
+   "allowed": "Territory Manager",
+   "next_state": "Approved",
+   "state": "Pending"
+  },
+  {
+   "action": "Reject",
+   "allowed": "Territory Manager",
+   "next_state": "Rejected",
+   "state": "Pending"
+  }
+ ],
+ "workflow_name": "Territory Exception Approval",
+ "workflow_state_field": "workflow_state"
+}

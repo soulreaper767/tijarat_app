@@ -1,0 +1,65 @@
+{
+ "creation": "2026-08-12 00:00:00.000000",
+ "doctype": "Workflow",
+ "document_type": "Trade Scheme",
+ "is_active": 1,
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "Trade Scheme Approval",
+ "owner": "Administrator",
+ "send_email_alert": 0,
+ "states": [
+  {
+   "allow_edit": "Supplier",
+   "doc_status": "0",
+   "state": "Draft",
+   "style": "Warning"
+  },
+  {
+   "allow_edit": "System Manager",
+   "doc_status": "0",
+   "state": "Pending Platform Review",
+   "style": "Primary"
+  },
+  {
+   "allow_edit": "System Manager",
+   "doc_status": "0",
+   "state": "Published",
+   "style": "Success"
+  },
+  {
+   "allow_edit": "Supplier",
+   "doc_status": "0",
+   "state": "Rejected",
+   "style": "Danger"
+  }
+ ],
+ "transitions": [
+  {
+   "action": "Submit for Review",
+   "allowed": "Supplier",
+   "next_state": "Pending Platform Review",
+   "state": "Draft"
+  },
+  {
+   "action": "Approve",
+   "allowed": "System Manager",
+   "next_state": "Published",
+   "state": "Pending Platform Review"
+  },
+  {
+   "action": "Reject",
+   "allowed": "System Manager",
+   "next_state": "Rejected",
+   "state": "Pending Platform Review"
+  },
+  {
+   "action": "Revise",
+   "allowed": "Supplier",
+   "next_state": "Draft",
+   "state": "Rejected"
+  }
+ ],
+ "workflow_name": "Trade Scheme Approval",
+ "workflow_state_field": "workflow_state"
+}

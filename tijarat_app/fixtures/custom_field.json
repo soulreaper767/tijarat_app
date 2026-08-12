@@ -1,0 +1,512 @@
+[
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "cd_geo_section",
+  "label": "Location & Registration",
+  "fieldtype": "Section Break",
+  "insert_after": "unsubscribed",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "latitude",
+  "label": "Latitude",
+  "fieldtype": "Float",
+  "precision": "6",
+  "insert_after": "cd_geo_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "longitude",
+  "label": "Longitude",
+  "fieldtype": "Float",
+  "precision": "6",
+  "insert_after": "latitude"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "cd_geo_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "longitude"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "trade_category",
+  "label": "Trade Category",
+  "fieldtype": "Link",
+  "options": "Item Group",
+  "insert_after": "cd_geo_col_1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "registration_channel",
+  "label": "Registration Channel",
+  "fieldtype": "Select",
+  "options": "Self\nAssisted",
+  "default": "Self",
+  "read_only": 1,
+  "insert_after": "trade_category"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "registered_by",
+  "label": "Registered By",
+  "fieldtype": "Link",
+  "options": "User",
+  "read_only": 1,
+  "insert_after": "registration_channel"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Contact",
+  "fieldname": "referral_code_used",
+  "label": "Referral Code Used",
+  "fieldtype": "Link",
+  "options": "Referral Code",
+  "insert_after": "registered_by"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "cd_lifecycle_section",
+  "label": "Tijarat Lifecycle",
+  "fieldtype": "Section Break",
+  "insert_after": "customer_primary_contact",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "lifecycle_status",
+  "label": "Lifecycle Status",
+  "fieldtype": "Select",
+  "options": "Registered\nProductive",
+  "default": "Registered",
+  "read_only": 1,
+  "in_standard_filter": 1,
+  "insert_after": "cd_lifecycle_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "first_order_date",
+  "label": "First Order Date",
+  "fieldtype": "Date",
+  "read_only": 1,
+  "insert_after": "lifecycle_status"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "cd_lifecycle_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "first_order_date"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "tijarat_score",
+  "label": "Tijarat Score",
+  "fieldtype": "Int",
+  "read_only": 1,
+  "insert_after": "cd_lifecycle_col_1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "score_updated_on",
+  "label": "Score Last Updated",
+  "fieldtype": "Datetime",
+  "read_only": 1,
+  "insert_after": "tijarat_score"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "cd_kyc_section",
+  "label": "KYC",
+  "fieldtype": "Section Break",
+  "insert_after": "score_updated_on",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "cnic",
+  "label": "CNIC",
+  "fieldtype": "Data",
+  "insert_after": "cd_kyc_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_photo",
+  "label": "Shop Photo",
+  "fieldtype": "Attach Image",
+  "insert_after": "cnic"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "cd_kyc_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "shop_photo"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "trust_tier",
+  "label": "Trust Tier",
+  "fieldtype": "Select",
+  "options": "Unverified\nBasic\nVerified\nPreferred",
+  "default": "Unverified",
+  "read_only": 1,
+  "insert_after": "cd_kyc_col_1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "kyc_status",
+  "label": "KYC Status",
+  "fieldtype": "Select",
+  "options": "Pending\nSubmitted\nVerified\nRejected",
+  "default": "Pending",
+  "insert_after": "trust_tier"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "payment_overdue_days",
+  "label": "Payment Overdue (Days)",
+  "description": "Age of the oldest outstanding invoice past its due date. Refreshed daily by the overdue-payment scheduled job.",
+  "fieldtype": "Int",
+  "read_only": 1,
+  "insert_after": "kyc_status"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "cd_lifecycle_section",
+  "label": "Tijarat Lifecycle",
+  "fieldtype": "Section Break",
+  "insert_after": "supplier_primary_contact",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "lifecycle_status",
+  "label": "Lifecycle Status",
+  "fieldtype": "Select",
+  "options": "Registered\nProductive",
+  "default": "Registered",
+  "read_only": 1,
+  "in_standard_filter": 1,
+  "insert_after": "cd_lifecycle_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "first_order_date",
+  "label": "First Order Date",
+  "fieldtype": "Date",
+  "read_only": 1,
+  "insert_after": "lifecycle_status"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "cd_lifecycle_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "first_order_date"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "tijarat_score",
+  "label": "Tijarat Score",
+  "fieldtype": "Int",
+  "read_only": 1,
+  "insert_after": "cd_lifecycle_col_1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "score_updated_on",
+  "label": "Score Last Updated",
+  "fieldtype": "Datetime",
+  "read_only": 1,
+  "insert_after": "tijarat_score"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "cd_kyb_section",
+  "label": "KYB",
+  "fieldtype": "Section Break",
+  "insert_after": "score_updated_on",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "kyb_status",
+  "label": "KYB Status",
+  "fieldtype": "Select",
+  "options": "Pending\nSubmitted\nVerified\nRejected",
+  "default": "Pending",
+  "insert_after": "cd_kyb_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "cd_kyb_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "kyb_status"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "is_brand_owner",
+  "label": "Brand / Catalog Owner (Manufacturer)",
+  "description": "Checked for a Manufacturer/Importer who owns the catalog. Unchecked for a Distributor selling upstream as a Supplier via Common Party Accounting.",
+  "fieldtype": "Check",
+  "insert_after": "cd_kyb_col_1"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Territory",
+  "fieldname": "cd_territory_section",
+  "label": "Tijarat Territory Lock",
+  "fieldtype": "Section Break",
+  "insert_after": "territory_manager",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Territory",
+  "fieldname": "boundary_polygon",
+  "label": "Boundary Polygon (GeoJSON)",
+  "fieldtype": "Long Text",
+  "insert_after": "cd_territory_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Territory",
+  "fieldname": "exclusivity",
+  "label": "Exclusivity",
+  "fieldtype": "Select",
+  "options": "Exclusive\nShared",
+  "default": "Exclusive",
+  "insert_after": "boundary_polygon"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "cd_item_section",
+  "label": "Tijarat Marketplace",
+  "fieldtype": "Section Break",
+  "insert_after": "is_purchase_item",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "mrp_ceiling",
+  "label": "MRP Ceiling",
+  "fieldtype": "Currency",
+  "description": "Legal maximum retail price. Sales Invoice rates above this are blocked.",
+  "insert_after": "cd_item_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "is_marketplace_item",
+  "label": "Sold by Multiple Suppliers (use Item Listing pricing)",
+  "fieldtype": "Check",
+  "insert_after": "mrp_ceiling"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "cd_order_section",
+  "label": "Tijarat Order Info",
+  "fieldtype": "Section Break",
+  "insert_after": "customer_group",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "booking_channel",
+  "label": "Booking Channel",
+  "fieldtype": "Select",
+  "options": "Self\nAssisted\nOnline",
+  "default": "Self",
+  "insert_after": "cd_order_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "booked_by",
+  "label": "Booked By",
+  "fieldtype": "Link",
+  "options": "User",
+  "read_only": 1,
+  "insert_after": "booking_channel"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "cd_order_col_1",
+  "fieldtype": "Column Break",
+  "insert_after": "booked_by"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "referral_code",
+  "label": "Referral Code",
+  "fieldtype": "Link",
+  "options": "Referral Code",
+  "insert_after": "cd_order_col_1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "service_package",
+  "label": "Service Package",
+  "fieldtype": "Link",
+  "options": "Service Package",
+  "insert_after": "referral_code"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "geofence_verified",
+  "label": "Geofence Verified",
+  "description": "Set automatically when the order was booked with a device location that fell inside the customer's registered geofence.",
+  "fieldtype": "Check",
+  "read_only": 1,
+  "insert_after": "service_package"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "primary_supplier",
+  "label": "Primary Supplier",
+  "description": "The territory-matched supplier fulfilling this order, resolved automatically at booking from the Item Listing(s) used.",
+  "fieldtype": "Link",
+  "options": "Supplier",
+  "in_list_view": 1,
+  "in_standard_filter": 1,
+  "read_only": 1,
+  "insert_after": "geofence_verified"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order",
+  "fieldname": "needs_supplier_assignment",
+  "label": "Needs Supplier Assignment",
+  "description": "Set when one or more lines could not be auto-matched to a territory-based Item Listing at booking time - routed to Customer Service for manual supplier assignment.",
+  "fieldtype": "Check",
+  "in_standard_filter": 1,
+  "read_only": 1,
+  "insert_after": "primary_supplier"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Order Item",
+  "fieldname": "item_listing",
+  "label": "Item Listing (Supplier/Rate chosen)",
+  "fieldtype": "Link",
+  "options": "Item Listing",
+  "insert_after": "item_code"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Invoice",
+  "fieldname": "cd_invoice_section",
+  "label": "Tijarat Commission",
+  "fieldtype": "Section Break",
+  "insert_after": "customer_group",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Invoice",
+  "fieldname": "referral_code",
+  "label": "Referral Code",
+  "fieldtype": "Link",
+  "options": "Referral Code",
+  "insert_after": "cd_invoice_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Invoice",
+  "fieldname": "platform_commission_amount",
+  "label": "Platform Commission Amount",
+  "fieldtype": "Currency",
+  "read_only": 1,
+  "insert_after": "referral_code"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Invoice",
+  "fieldname": "referral_commission_amount",
+  "label": "Referral Commission Amount",
+  "fieldtype": "Currency",
+  "read_only": 1,
+  "insert_after": "platform_commission_amount"
+ },
+
+ {
+  "doctype": "Custom Field",
+  "dt": "Warehouse",
+  "fieldname": "cd_warehouse_section",
+  "label": "Tijarat Warehouse-as-a-Service",
+  "fieldtype": "Section Break",
+  "insert_after": "disabled",
+  "collapsible": 1
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Warehouse",
+  "fieldname": "is_shared_facility",
+  "label": "Shared Multi-Tenant Facility",
+  "fieldtype": "Check",
+  "insert_after": "cd_warehouse_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Warehouse",
+  "fieldname": "storage_rate_per_sqft",
+  "label": "Storage Rate (per sqft/month)",
+  "fieldtype": "Currency",
+  "insert_after": "is_shared_facility"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Warehouse",
+  "fieldname": "is_cold_chain",
+  "label": "Cold Chain Zone",
+  "fieldtype": "Check",
+  "insert_after": "storage_rate_per_sqft"
+ }
+]

@@ -1,0 +1,95 @@
+[
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Platform Admin",
+  "roles": [
+   {"role": "System Manager"},
+   {"role": "Territory Manager"},
+   {"role": "Accounts Manager"},
+   {"role": "Support Agent"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Territory Manager",
+  "roles": [
+   {"role": "Territory Manager"},
+   {"role": "Sales User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Distributor Admin",
+  "roles": [
+   {"role": "Distributor Admin"},
+   {"role": "Sales Manager"},
+   {"role": "Purchase Manager"},
+   {"role": "Stock Manager"},
+   {"role": "Accounts Manager"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Manufacturer Admin",
+  "roles": [
+   {"role": "Supplier"},
+   {"role": "Sales User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Field Officer",
+  "roles": [
+   {"role": "Field Officer"},
+   {"role": "Sales User"},
+   {"role": "Employee"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Warehouse Manager",
+  "roles": [
+   {"role": "Warehouse Manager"},
+   {"role": "Stock User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Delivery Rider",
+  "roles": [
+   {"role": "Rider"},
+   {"role": "Employee"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Support Agent",
+  "roles": [
+   {"role": "Support Agent"},
+   {"role": "Sales User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Customer Service",
+  "roles": [
+   {"role": "Customer Service"},
+   {"role": "Sales User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Finance",
+  "roles": [
+   {"role": "Accounts User"}
+  ]
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Retailer / Supplier Portal",
+  "roles": [
+   {"role": "Customer"},
+   {"role": "Supplier"}
+  ]
+ }
+]

@@ -1,0 +1,22 @@
+{
+ "add_total_row": 0,
+ "creation": "2026-08-12 00:00:00.000000",
+ "disabled": 0,
+ "doctype": "Report",
+ "is_standard": "Yes",
+ "letter_head": null,
+ "modified": "2026-08-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Lifecycle Funnel",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Customer",
+ "report_name": "Lifecycle Funnel",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "Distributor Admin"},
+  {"role": "Territory Manager"}
+ ]
+}
