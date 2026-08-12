@@ -301,5 +301,87 @@
   "permlevel": 0,
   "select": 1,
   "name": "tijarat-account-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Sales Order",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-sales-order-field-officer",
+  "create": 1,
+  "read": 1,
+  "write": 1,
+  "submit": 1,
+  "report": 1,
+  "print": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Item",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-item-field-officer",
+  "read": 1,
+  "select": 1,
+  "report": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Account",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-account-field-officer",
+  "select": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Customer",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-customer-field-officer",
+  "read": 1,
+  "write": 1,
+  "report": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Supplier",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-supplier-field-officer",
+  "read": 1,
+  "report": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Contact",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-contact-field-officer",
+  "read": 1,
+  "write": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Address",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-address-field-officer",
+  "read": 1,
+  "write": 1
  }
 ]

@@ -76,6 +76,7 @@ fixtures = [
 					"Customer",
 					"Supplier",
 					"Customer Service",
+					"Field Officer",
 				],
 			]
 		],
