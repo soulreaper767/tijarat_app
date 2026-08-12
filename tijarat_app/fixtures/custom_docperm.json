@@ -9,7 +9,8 @@
   "read": 1,
   "write": 1,
   "report": 1,
-  "print": 1
+  "print": 1,
+  "name": "tijarat-delivery-note-rider"
  },
  {
   "doctype": "Custom DocPerm",
@@ -21,7 +22,8 @@
   "read": 1,
   "write": 1,
   "report": 1,
-  "print": 1
+  "print": 1,
+  "name": "tijarat-delivery-trip-rider"
  },
  {
   "doctype": "Custom DocPerm",
@@ -35,7 +37,8 @@
   "create": 1,
   "report": 1,
   "print": 1,
-  "email": 1
+  "email": 1,
+  "name": "tijarat-sales-invoice-support-agent"
  },
  {
   "doctype": "Custom DocPerm",
@@ -46,7 +49,8 @@
   "permlevel": 0,
   "read": 1,
   "report": 1,
-  "print": 1
+  "print": 1,
+  "name": "tijarat-territory-territory-manager"
  },
  {
   "doctype": "Custom DocPerm",
@@ -58,7 +62,8 @@
   "read": 1,
   "write": 1,
   "create": 1,
-  "report": 1
+  "report": 1,
+  "name": "tijarat-customer-credit-limit-distributor-admin"
  },
  {
   "doctype": "Custom DocPerm",
@@ -72,7 +77,8 @@
   "create": 1,
   "submit": 1,
   "report": 1,
-  "print": 1
+  "print": 1,
+  "name": "tijarat-sales-order-customer"
  },
  {
   "doctype": "Custom DocPerm",
@@ -84,6 +90,7 @@
   "read": 1,
   "write": 1,
   "report": 1,
-  "print": 1
+  "print": 1,
+  "name": "tijarat-sales-order-customer-service"
  }
 ]
