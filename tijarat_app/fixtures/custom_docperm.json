@@ -281,5 +281,25 @@
   "select": 1,
   "report": 1,
   "name": "tijarat-item-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Account",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "select": 1,
+  "name": "tijarat-account-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Account",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "select": 1,
+  "name": "tijarat-account-supplier"
  }
 ]
