@@ -213,6 +213,17 @@
  },
  {
   "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "served_territories",
+  "label": "Territories Served",
+  "description": "Every territory this party is registered to operate in - seeded with their home territory at registration. New Item Listings default to the primary one when left blank.",
+  "fieldtype": "Table",
+  "options": "Territory Coverage",
+  "insert_after": "payment_overdue_days",
+  "name": "Customer-served_territories"
+ },
+ {
+  "doctype": "Custom Field",
   "dt": "Supplier",
   "fieldname": "cd_lifecycle_section",
   "label": "Tijarat Lifecycle",
@@ -310,6 +321,17 @@
   "fieldtype": "Check",
   "insert_after": "cd_kyb_col_1",
   "name": "Supplier-is_brand_owner"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Supplier",
+  "fieldname": "served_territories",
+  "label": "Territories Served",
+  "description": "Every territory this party is registered to operate in - seeded with their home territory at registration. New Item Listings default to the primary one when left blank.",
+  "fieldtype": "Table",
+  "options": "Territory Coverage",
+  "insert_after": "is_brand_owner",
+  "name": "Supplier-served_territories"
  },
  {
   "doctype": "Custom Field",

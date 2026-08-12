@@ -7,6 +7,7 @@ class ItemListing(Document):
 	def validate(self):
 		self.validate_dates()
 		self.set_default_currency()
+		self.auto_mark_territory()
 
 	def validate_dates(self):
 		if self.valid_from and self.valid_upto:
@@ -16,6 +17,26 @@ class ItemListing(Document):
 	def set_default_currency(self):
 		if not self.currency:
 			self.currency = frappe.db.get_default("currency") or "PKR"
+
+	def auto_mark_territory(self):
+		"""Leaving Territory blank on a new listing defaults it to the
+		Supplier's primary served territory rather than "all territories" -
+		a supplier who serves more than one territory still gets a sensible
+		default here (their home one) and creates additional listings for
+		the others, same as any other item they list. Only applies on
+		create - never overrides a value someone already chose or is editing."""
+		if self.territory or not self.supplier or not self.is_new():
+			return
+
+		coverage = frappe.get_all(
+			"Territory Coverage",
+			filters={"parent": self.supplier, "parenttype": "Supplier"},
+			fields=["territory"],
+			order_by="is_primary desc",
+			limit=1,
+		)
+		if coverage:
+			self.territory = coverage[0].territory
 
 	def is_currently_valid(self):
 		"""Used by the marketplace API to filter listings that are active

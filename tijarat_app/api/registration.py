@@ -63,6 +63,13 @@ def register_trade_party(
 	customer_group = _customer_group_for(business_type)
 	territory = _resolve_territory(city)
 
+	# served_territories seeds the multi-territory model with this party's
+	# home/registration territory as the primary one - Item Listing later
+	# auto-fills from this when a Supplier books a listing without picking a
+	# territory explicitly, and add_served_territory (api/territory.py) is
+	# how they register additional territories as their business expands.
+	# Two separate list literals - not one shared reference - since insert()
+	# stamps parent/name onto each child row dict in place.
 	customer = frappe.get_doc(
 		{
 			"doctype": "Customer",
@@ -70,6 +77,7 @@ def register_trade_party(
 			"customer_group": customer_group,
 			"territory": territory,
 			"lifecycle_status": "Registered",
+			"served_territories": [{"territory": territory, "is_primary": 1}],
 		}
 	).insert(ignore_permissions=True)
 
@@ -80,6 +88,7 @@ def register_trade_party(
 			"supplier_group": _default_supplier_group(),
 			"lifecycle_status": "Registered",
 			"is_brand_owner": 1 if business_type == "manufacturer" else 0,
+			"served_territories": [{"territory": territory, "is_primary": 1}],
 		}
 	).insert(ignore_permissions=True)
 

@@ -1,5 +1,6 @@
 import frappe
 from frappe import _
+from frappe.utils import cint
 
 
 def validate_territory_lock(doc, method=None):
@@ -83,3 +84,59 @@ def request_exception(customer, requested_supplier, supplier_territory, reason):
 	doc.insert(ignore_permissions=True)
 	frappe.db.commit()
 	return doc.name
+
+
+@frappe.whitelist()
+def add_served_territory(party_type, party_name, territory, is_primary=0):
+	"""How a party with more than one territory is actually represented:
+	Customer/Supplier both carry a `served_territories` table (seeded with
+	their home territory at registration) rather than a single field, since
+	a distributor/manufacturer routinely expands into new regions without
+	ever leaving their original one. This is the self-service way they
+	register that expansion; Item Listing (see item_listing.py's
+	auto_mark_territory) defaults new listings from the primary entry here
+	when a territory isn't picked explicitly.
+
+	Goes through normal permission checks (not ignore_permissions), so a
+	self-service caller can only touch their own Customer/Supplier record -
+	the same User Permission set up at registration that scopes everything
+	else about their account.
+	"""
+	if party_type not in ("Customer", "Supplier"):
+		frappe.throw(_("party_type must be Customer or Supplier."))
+
+	doc = frappe.get_doc(party_type, party_name)
+
+	if any(row.territory == territory for row in doc.get("served_territories", [])):
+		return doc.name
+
+	if cint(is_primary):
+		for row in doc.get("served_territories", []):
+			row.is_primary = 0
+
+	doc.append("served_territories", {"territory": territory, "is_primary": cint(is_primary)})
+	doc.save()
+	frappe.db.commit()
+	return doc.name
+
+
+@frappe.whitelist()
+def list_served_territories(party_type, party_name):
+	"""Every territory a party is registered to serve, primary first - what
+	the frontend shows on a "your territories" screen and offers as
+	Item Listing territory choices."""
+	if party_type not in ("Customer", "Supplier"):
+		frappe.throw(_("party_type must be Customer or Supplier."))
+
+	# frappe.get_all bypasses permissions, so the read-check on the *parent*
+	# record is done explicitly here rather than relying on it implicitly -
+	# Territory Coverage is a child table and has no DocPerm of its own.
+	if not frappe.has_permission(party_type, "read", party_name):
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+	return frappe.get_all(
+		"Territory Coverage",
+		filters={"parent": party_name, "parenttype": party_type},
+		fields=["territory", "is_primary"],
+		order_by="is_primary desc, territory asc",
+	)
