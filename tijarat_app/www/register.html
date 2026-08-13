@@ -97,6 +97,22 @@
   .footer-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
   .footer-link a { color: var(--primary); font-weight: 600; text-decoration: none; }
   .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .hint.ok { color: var(--success); }
+  .hint.warn { color: var(--danger); }
+  .strength-bar {
+    margin-top: 8px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .strength-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    background: var(--danger);
+    transition: width 0.15s ease, background-color 0.15s ease;
+  }
 </style>
 </head>
 <body>
@@ -155,12 +171,14 @@
       <div class="row">
         <div>
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" minlength="8" required>
-          <div class="hint">At least 8 characters</div>
+          <input id="password" name="password" type="password" minlength="8" required autocomplete="new-password">
+          <div class="strength-bar"><div class="strength-bar-fill" id="strengthFill"></div></div>
+          <div class="hint" id="strengthHint">At least 8 characters — avoid repeats like "abcabc" or common words</div>
         </div>
         <div>
           <label for="confirmPassword">Confirm password</label>
-          <input id="confirmPassword" name="confirmPassword" type="password" minlength="8" required>
+          <input id="confirmPassword" name="confirmPassword" type="password" minlength="8" required autocomplete="new-password">
+          <div class="hint" id="matchHint">&nbsp;</div>
         </div>
       </div>
 
@@ -210,6 +228,69 @@
     return 'Something went wrong. Please try again.';
   }
 
+  // Approximates (doesn't replicate) the server's zxcvbn-based password
+  // policy, so the same kind of thing it rejects — repeated/sequential runs,
+  // low character variety — shows up while typing instead of only after a
+  // failed submit. The server is still the real authority: this only blocks
+  // submission on the cases it's confident about (score 0), everything else
+  // is a warning, not a hard stop.
+  var STRENGTH_LABELS = ['Very weak', 'Weak', 'Fair', 'Good', 'Strong'];
+  var STRENGTH_COLORS = ['#C0392B', '#C0392B', '#E8A33D', '#2E7D5B', '#2E7D5B'];
+
+  function estimatePasswordStrength(pwd) {
+    if (!pwd) return { score: 0, label: '', note: '' };
+
+    var score = 0;
+    if (pwd.length >= 8) score++;
+    if (pwd.length >= 12) score++;
+    if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+
+    var note = '';
+    var isRepeat = /(.{2,})\1{1,}/.test(pwd) || /^(.)\1+$/.test(pwd);
+    var isSequential = /(0123|1234|2345|3456|4567|5678|6789|abcd|bcde|cdef|defg|qwer|asdf)/i.test(pwd);
+
+    if (isRepeat) {
+      score = Math.min(score, 1);
+      note = 'Avoid repeated characters or patterns (e.g. "abcabc")';
+    } else if (isSequential) {
+      score = Math.min(score, 2);
+      note = 'Avoid sequential characters (e.g. "1234", "abcd")';
+    }
+
+    score = Math.max(0, Math.min(4, score));
+    return { score: score, label: STRENGTH_LABELS[score], note: note };
+  }
+
+  var passwordInput = document.getElementById('password');
+  var confirmInput = document.getElementById('confirmPassword');
+  var strengthFill = document.getElementById('strengthFill');
+  var strengthHint = document.getElementById('strengthHint');
+  var matchHint = document.getElementById('matchHint');
+
+  passwordInput.addEventListener('input', function () {
+    var result = estimatePasswordStrength(passwordInput.value);
+    strengthFill.style.width = (result.score / 4 * 100) + '%';
+    strengthFill.style.backgroundColor = STRENGTH_COLORS[result.score];
+    if (!passwordInput.value) {
+      strengthHint.textContent = 'At least 8 characters — avoid repeats like "abcabc" or common words';
+      strengthHint.className = 'hint';
+    } else {
+      strengthHint.textContent = result.note || result.label;
+      strengthHint.className = 'hint' + (result.score <= 1 ? ' warn' : result.score >= 3 ? ' ok' : '');
+    }
+  });
+
+  function updateMatchHint() {
+    if (!confirmInput.value) { matchHint.innerHTML = '&nbsp;'; matchHint.className = 'hint'; return; }
+    var matches = passwordInput.value === confirmInput.value;
+    matchHint.textContent = matches ? 'Passwords match' : 'Passwords do not match';
+    matchHint.className = 'hint ' + (matches ? 'ok' : 'warn');
+  }
+  confirmInput.addEventListener('input', updateMatchHint);
+  passwordInput.addEventListener('input', updateMatchHint);
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     showMsg('', '');
@@ -221,6 +302,11 @@
     var confirmPassword = document.getElementById('confirmPassword').value;
     if (password.length < 8) { showMsg('Password must be at least 8 characters.', 'error'); return; }
     if (password !== confirmPassword) { showMsg('Passwords do not match.', 'error'); return; }
+    var strength = estimatePasswordStrength(password);
+    if (strength.score === 0) {
+      showMsg(strength.note || 'This password is too weak — please choose a stronger one.', 'error');
+      return;
+    }
 
     var payload = {
       party_name: document.getElementById('businessName').value,
