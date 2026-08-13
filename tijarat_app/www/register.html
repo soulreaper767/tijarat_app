@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register — Tijarat</title>
+<style>
+  :root {
+    --primary: #1B3A5C;
+    --primary-hover: #16304c;
+    --accent: #E8A33D;
+    --bg: #F4F1EC;
+    --text: #2B2B2B;
+    --muted: #6b6b6b;
+    --border: #d9d5cc;
+    --danger: #C0392B;
+    --success: #2E7D5B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 32px 16px;
+  }
+  .card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.sub { color: var(--muted); margin: 0 0 24px; font-size: 14px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .role-option {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    user-select: none;
+  }
+  .role-option.selected {
+    border-color: var(--primary);
+    background: rgba(27,58,92,0.06);
+    color: var(--primary);
+  }
+  button {
+    width: 100%;
+    margin-top: 24px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--primary-hover); }
+  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .msg {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+  }
+  .msg.error { background: #fdecea; color: var(--danger); display: block; }
+  .msg.success { background: #eaf6f0; color: var(--success); display: block; }
+  .footer-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
+  .footer-link a { color: var(--primary); font-weight: 600; text-decoration: none; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Create your Tijarat account</h1>
+    <p class="sub">Takes about two minutes. Your details are reviewed before your first order.</p>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="registerForm">
+      <label>I am a...</label>
+      <div class="roles" id="roleOptions">
+        <div class="role-option" data-value="retailer">Retailer / Trader</div>
+        <div class="role-option" data-value="wholesaler">Wholesaler</div>
+        <div class="role-option" data-value="distributor">Distributor</div>
+        <div class="role-option" data-value="manufacturer">Manufacturer</div>
+        <div class="role-option" data-value="ecommerce">E-commerce</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="businessName">Business name</label>
+          <input id="businessName" name="businessName" required>
+        </div>
+        <div>
+          <label for="ownerName">Owner name</label>
+          <input id="ownerName" name="ownerName" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="03001234567" required>
+        </div>
+        <div>
+          <label for="email">Email (optional)</label>
+          <input id="email" name="email" type="email">
+        </div>
+      </div>
+
+      <label for="city">City</label>
+      <select id="city" name="city" required>
+        <option value="" disabled selected>Select city</option>
+        <option>Lahore</option>
+        <option>Karachi</option>
+        <option>Islamabad</option>
+        <option>Faisalabad</option>
+        <option>Multan</option>
+        <option>Peshawar</option>
+      </select>
+
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="2" required></textarea>
+
+      <div class="row">
+        <div>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" minlength="8" required>
+          <div class="hint">At least 8 characters</div>
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm password</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" minlength="8" required>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn">Create account</button>
+    </form>
+
+    <div class="footer-link">Already have an account? <a href="/login">Sign in</a></div>
+  </div>
+
+<script>
+(function () {
+  var form = document.getElementById('registerForm');
+  var msgBox = document.getElementById('msg');
+  var submitBtn = document.getElementById('submitBtn');
+  var role = '';
+
+  document.querySelectorAll('.role-option').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.querySelectorAll('.role-option').forEach(function (o) { o.classList.remove('selected'); });
+      el.classList.add('selected');
+      role = el.getAttribute('data-value');
+    });
+  });
+
+  function showMsg(text, kind) {
+    msgBox.textContent = text;
+    msgBox.className = 'msg ' + kind;
+  }
+
+  function extractErrorMessage(body) {
+    if (body && typeof body.message === 'string') return body.message;
+    if (body && Array.isArray(body._server_messages)) {
+      try {
+        var first = JSON.parse(body._server_messages[0]);
+        if (first && first.message) return first.message;
+      } catch (e) { /* fall through */ }
+    }
+    if (body && body.exception) return body.exception;
+    return 'Something went wrong. Please try again.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    showMsg('', '');
+    msgBox.className = 'msg';
+
+    if (!role) { showMsg('Please select what best describes you.', 'error'); return; }
+
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+    if (password.length < 8) { showMsg('Password must be at least 8 characters.', 'error'); return; }
+    if (password !== confirmPassword) { showMsg('Passwords do not match.', 'error'); return; }
+
+    var payload = {
+      party_name: document.getElementById('businessName').value,
+      contact_person: document.getElementById('ownerName').value,
+      mobile_no: document.getElementById('phone').value,
+      email: document.getElementById('email').value || undefined,
+      city: document.getElementById('city').value,
+      address: document.getElementById('address').value,
+      business_type: role,
+      password: password,
+      registration_channel: 'Self'
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating account...';
+
+    fetch('/api/method/tijarat_app.api.registration.register_trade_party', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': window.csrf_token || '' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+      })
+      .then(function (result) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create account';
+        if (!result.ok) {
+          showMsg(extractErrorMessage(result.body), 'error');
+          return;
+        }
+        showMsg("You're registered! Redirecting to sign in...", 'success');
+        form.style.display = 'none';
+        setTimeout(function () { window.location.href = '/login'; }, 1800);
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create account';
+        showMsg('Could not reach the server. Please try again shortly.', 'error');
+      });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in — Tijarat</title>
+<style>
+  :root {
+    --primary: #1B3A5C;
+    --primary-hover: #16304c;
+    --bg: #F4F1EC;
+    --text: #2B2B2B;
+    --muted: #6b6b6b;
+    --border: #d9d5cc;
+    --danger: #C0392B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; text-align: center; }
+  p.sub { color: var(--muted); margin: 0 0 24px; font-size: 14px; text-align: center; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 6px; }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  input:focus { outline: none; border-color: var(--primary); }
+  button {
+    width: 100%;
+    margin-top: 24px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--primary-hover); }
+  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .msg {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+  }
+  .msg.error { background: #fdecea; color: var(--danger); display: block; }
+  .footer-link { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
+  .footer-link a { color: var(--primary); font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Sign in to Tijarat</h1>
+    <p class="sub">Use your email (staff) or mobile number (retailer/supplier)</p>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="loginForm">
+      <label for="identifier">Email or mobile number</label>
+      <input id="identifier" name="identifier" required autofocus>
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required>
+
+      <button type="submit" id="submitBtn">Sign in</button>
+    </form>
+
+    <div class="footer-link">New here? <a href="/register">Create an account</a></div>
+  </div>
+
+<script>
+(function () {
+  var form = document.getElementById('loginForm');
+  var msgBox = document.getElementById('msg');
+  var submitBtn = document.getElementById('submitBtn');
+  var MOBILE_LIKE = /^[+0-9][0-9\s-]{6,}$/;
+
+  function showMsg(text) {
+    msgBox.textContent = text;
+    msgBox.className = 'msg error';
+  }
+
+  function extractErrorMessage(body) {
+    if (body && typeof body.message === 'string') return body.message;
+    if (body && Array.isArray(body._server_messages)) {
+      try {
+        var first = JSON.parse(body._server_messages[0]);
+        if (first && first.message) return first.message;
+      } catch (e) { /* fall through */ }
+    }
+    return 'Invalid credentials. Please try again.';
+  }
+
+  function post(path, payload) {
+    return fetch(path, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': window.csrf_token || '' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msgBox.className = 'msg';
+
+    var identifier = document.getElementById('identifier').value.trim();
+    var password = document.getElementById('password').value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in...';
+
+    var request = MOBILE_LIKE.test(identifier)
+      ? post('/api/method/tijarat_app.api.registration.login_with_mobile', { mobile_no: identifier, password: password })
+      : post('/api/method/login', { usr: identifier, pwd: password });
+
+    request
+      .then(function (result) {
+        if (!result.ok) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign in';
+          showMsg(extractErrorMessage(result.body));
+          return;
+        }
+        window.location.href = '/me';
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+        showMsg('Could not reach the server. Please try again shortly.');
+      });
+  });
+})();
+</script>
+</body>
+</html>
