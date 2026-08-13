@@ -185,6 +185,14 @@
     });
   });
 
+  // Marketing site CTAs link here with e.g. ?role=ecommerce preselected.
+  var preselected = new URLSearchParams(window.location.search).get('role');
+  if (preselected) {
+    document.querySelectorAll('.role-option').forEach(function (el) {
+      if (el.getAttribute('data-value') === preselected) el.click();
+    });
+  }
+
   function showMsg(text, kind) {
     msgBox.textContent = text;
     msgBox.className = 'msg ' + kind;
