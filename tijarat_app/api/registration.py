@@ -11,6 +11,13 @@ BUSINESS_TYPE_TO_CUSTOMER_GROUP = {
 }
 
 
+def _login_email_for(mobile_no):
+	# Frappe's User.name/email must be email-shaped; every party registered
+	# through this app logs in by phone number, not this synthetic address -
+	# see login_with_mobile.
+	return f"{mobile_no}@tijaratapp.users"
+
+
 @frappe.whitelist(allow_guest=True)
 def login_with_mobile(mobile_no, password):
 	"""Native `/api/method/login` only accepts an email-shaped `usr`, but
@@ -117,8 +124,17 @@ def register_trade_party(
 			{"link_doctype": "Supplier", "link_name": supplier.name},
 		],
 	}
+	# Always claim the synthetic login email as one of this Contact's
+	# addresses, even when a real email is also given (marked primary
+	# instead, if so) - Frappe's native User.create_contact background job
+	# looks up an existing Contact by the User's email and only auto-creates
+	# a new one if that lookup comes back empty. Without this, that lookup
+	# never finds the Contact we just made, and the native job tries to
+	# create a second, colliding one on every registration.
+	login_email = _login_email_for(mobile_no)
+	contact_doc["email_ids"] = [{"email_id": login_email, "is_primary": 0 if email else 1}]
 	if email:
-		contact_doc["email_ids"] = [{"email_id": email, "is_primary": 1}]
+		contact_doc["email_ids"].append({"email_id": email, "is_primary": 1})
 	contact = frappe.get_doc(contact_doc).insert(ignore_permissions=True)
 
 	address_doc = None
@@ -205,7 +221,7 @@ def _grant_portal_access(
 	business_type=None,
 	password=None,
 ):
-	email = f"{mobile_no}@tijaratapp.users"
+	email = _login_email_for(mobile_no)
 	# A real login needs a real password - Frappe's User doctype requires an
 	# email-shaped identifier for `name`, which is why the login id is this
 	# synthetic address rather than the mobile number itself; login_with_mobile
