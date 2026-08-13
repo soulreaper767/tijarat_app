@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "com.tijaratapp.portal",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_YOUR_RELEASE_KEYSTORE_SHA256_FINGERPRINT"
+        "DA:28:A7:8C:33:0F:75:07:C3:21:97:C4:AE:AB:D1:5D:46:2A:DC:11:22:B6:16:AE:63:1E:11:D8:ED:12:2E:0E"
       ]
     }
   }
