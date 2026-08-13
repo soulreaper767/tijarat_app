@@ -189,7 +189,13 @@ def _customer_group_for(business_type):
 
 
 def _default_supplier_group():
-	existing = frappe.db.get_list("Supplier Group", limit=1, pluck="name")
+	# frappe.get_all, not frappe.db.get_list - this is an internal system
+	# lookup during a guest-callable registration flow, and get_list (unlike
+	# get_all) enforces the *calling user's* permissions. A real Guest
+	# session has no permission on Supplier Group at all, so get_list threw
+	# PermissionError here - masked in every earlier test because those ran
+	# as Administrator, who bypasses permission checks universally.
+	existing = frappe.get_all("Supplier Group", limit=1, pluck="name")
 	return existing[0] if existing else "All Supplier Groups"
 
 
@@ -201,7 +207,10 @@ def _resolve_territory(city):
 	# First-time city - create it as a leaf Territory under the root so
 	# territory-lock validation (api/territory.py) has something real to
 	# check against, rather than silently falling back to the root.
-	root = frappe.db.get_all("Territory", filters={"is_group": 1, "parent_territory": ""}, limit=1, pluck="name")
+	# frappe.get_all, not frappe.db.get_all - same reasoning as
+	# _default_supplier_group above: this must not depend on the calling
+	# Guest session having any permission on Territory.
+	root = frappe.get_all("Territory", filters={"is_group": 1, "parent_territory": ""}, limit=1, pluck="name")
 	parent = root[0] if root else "All Territories"
 	try:
 		return frappe.get_doc(
