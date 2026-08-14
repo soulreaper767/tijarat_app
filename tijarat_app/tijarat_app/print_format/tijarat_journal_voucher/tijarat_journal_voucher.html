@@ -1,0 +1,108 @@
+<style>
+  @page { size: A4; margin: 10mm; }
+  * { box-sizing: border-box; }
+  body, .tj-doc { font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #24303d; line-height: 1.45; }
+  .tj-doc { max-width: 100%; }
+
+  .tj-titlebar { display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:1px solid #d8dde3; padding-bottom:6px; margin:10px 0 12px; }
+  .tj-doctitle { font-size:16px; font-weight:700; color:#1B3A5C; letter-spacing:0.4px; margin:0; }
+  .tj-docsub { font-size:8px; color:#B8862F; font-weight:600; text-transform:uppercase; letter-spacing:0.6px; margin-top:2px; }
+  .tj-meta { text-align:right; font-size:8.5px; color:#3d4a58; }
+  .tj-meta .tj-docno { font-size:11px; font-weight:700; color:#1B3A5C; }
+  .tj-meta div { margin-top:1px; }
+
+  .tj-status { display:inline-block; font-size:8px; font-weight:700; letter-spacing:0.6px;
+    padding:2px 7px; border-radius:3px; margin-top:4px; }
+  .tj-status.draft { background:#fbe9c7; color:#8a5a00; }
+  .tj-status.cancelled { background:#fbdada; color:#a12626; }
+
+  .tj-party { border:1px solid #e2e6ea; border-radius:4px; padding:8px 10px; margin-bottom:12px; }
+  .tj-party-label { font-size:7.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px;
+    color:#B8862F; margin-bottom:4px; }
+  .tj-party-detail { font-size:8.5px; color:#4d5a68; }
+
+  table.tj-accounts { width:100%; border-collapse:collapse; margin-bottom:10px; }
+  table.tj-accounts thead th { background:#1B3A5C; color:#fff; font-size:8px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.3px; padding:5px 6px; text-align:left; }
+  table.tj-accounts thead th.num { text-align:right; }
+  table.tj-accounts tbody td { padding:4.5px 6px; border-bottom:1px solid #eceff2; font-size:8.5px; vertical-align:top; }
+  table.tj-accounts tbody tr:nth-child(even) { background:#f8f9fb; }
+  table.tj-accounts td.num, table.tj-accounts th.num { text-align:right; white-space:nowrap; }
+  table.tj-accounts tfoot td { padding:5px 6px; font-size:9.5px; font-weight:700; color:#1B3A5C; border-top:1.5px solid #1B3A5C; }
+
+  .tj-words { font-size:8.5px; color:#4d5a68; font-style:italic; margin-bottom:12px; }
+
+  .tj-footer { display:flex; justify-content:space-between; margin-top:22px; padding-top:10px; border-top:1px solid #e2e6ea; }
+  .tj-terms { font-size:7.5px; color:#6b7684; max-width:55%; }
+  .tj-signblock { text-align:center; font-size:8px; color:#4d5a68; }
+  .tj-signline { border-top:1px solid #9aa5b1; width:120px; margin-top:26px; padding-top:3px; }
+  .tj-signrow { display:flex; gap:24px; }
+
+  .tj-fineprint { text-align:center; font-size:7px; color:#9aa5b1; margin-top:14px; }
+</style>
+
+<div class="tj-doc">
+  {{ letter_head }}
+
+  <div class="tj-titlebar">
+    <div>
+      <p class="tj-doctitle">JOURNAL VOUCHER</p>
+      <div class="tj-docsub">{{ doc.voucher_type or "Journal Entry" }}</div>
+      {% if doc.docstatus == 0 %}<div class="tj-status draft">DRAFT</div>{% endif %}
+      {% if doc.docstatus == 2 %}<div class="tj-status cancelled">CANCELLED</div>{% endif %}
+    </div>
+    <div class="tj-meta">
+      <div class="tj-docno">{{ doc.name }}</div>
+      <div>Date: {{ frappe.utils.format_date(doc.posting_date) }}</div>
+      {% if doc.cheque_no %}<div>Cheque #: {{ doc.cheque_no }}{% if doc.cheque_date %} / {{ frappe.utils.format_date(doc.cheque_date) }}{% endif %}</div>{% endif %}
+    </div>
+  </div>
+
+  {% if doc.user_remark %}
+  <div class="tj-party">
+    <div class="tj-party-label">Narration</div>
+    <div class="tj-party-detail">{{ doc.user_remark }}</div>
+  </div>
+  {% endif %}
+
+  <table class="tj-accounts">
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Party</th>
+        <th class="num" style="width:90px;">Debit</th>
+        <th class="num" style="width:90px;">Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in doc.accounts %}
+      <tr>
+        <td>{{ row.account }}</td>
+        <td>{{ row.party or "-" }}</td>
+        <td class="num">{{ frappe.utils.fmt_money(row.debit_in_account_currency, currency=doc.get("company_currency")) if row.debit_in_account_currency else "" }}</td>
+        <td class="num">{{ frappe.utils.fmt_money(row.credit_in_account_currency, currency=doc.get("company_currency")) if row.credit_in_account_currency else "" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">Total</td>
+        <td class="num">{{ frappe.utils.fmt_money(doc.total_debit) }}</td>
+        <td class="num">{{ frappe.utils.fmt_money(doc.total_credit) }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  {% if doc.get("total_amount_in_words") %}<div class="tj-words">Amount in words: {{ doc.total_amount_in_words }}</div>{% endif %}
+
+  <div class="tj-footer">
+    <div class="tj-terms">This is a system-generated accounting voucher recorded under Tijarat's books of account.</div>
+    <div class="tj-signrow">
+      <div class="tj-signblock"><div class="tj-signline">Prepared By</div></div>
+      <div class="tj-signblock"><div class="tj-signline">Authorized Signatory</div></div>
+    </div>
+  </div>
+
+  <div class="tj-fineprint">Tijarat &middot; www.tijaratapp.com &middot; Generated {{ frappe.utils.format_date(frappe.utils.nowdate()) }}</div>
+</div>

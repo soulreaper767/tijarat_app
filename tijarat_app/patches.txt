@@ -1,1 +1,4 @@
 # Patches for tijarat_app
+
+[post_model_sync]
+tijarat_app.patches.create_tijarat_letter_head

@@ -1,0 +1,21 @@
+{
+ "doctype": "Print Format",
+ "name": "Tijarat Purchase Receipt - Gate Pass",
+ "doc_type": "Purchase Receipt",
+ "module": "Tijarat App",
+ "standard": "Yes",
+ "custom_format": 1,
+ "disabled": 0,
+ "print_format_type": "Jinja",
+ "print_format_builder": 0,
+ "raw_printing": 0,
+ "line_breaks": 0,
+ "align_labels_right": 0,
+ "show_section_headings": 0,
+ "default_print_language": "en",
+ "page_number": "Hide",
+ "margin_top": 10.0,
+ "margin_bottom": 10.0,
+ "margin_left": 10.0,
+ "margin_right": 10.0
+}
