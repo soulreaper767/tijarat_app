@@ -152,8 +152,8 @@
           <input id="phone" name="phone" type="tel" placeholder="03001234567" required>
         </div>
         <div>
-          <label for="email">Email (optional)</label>
-          <input id="email" name="email" type="email">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
         </div>
       </div>
 
@@ -316,7 +316,7 @@ window.csrf_token = "{{ csrf_token }}";
       party_name: document.getElementById('businessName').value,
       contact_person: document.getElementById('ownerName').value,
       mobile_no: document.getElementById('phone').value,
-      email: document.getElementById('email').value || undefined,
+      email: document.getElementById('email').value,
       city: document.getElementById('city').value,
       address: document.getElementById('address').value,
       business_type: role,

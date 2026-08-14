@@ -1,3 +1,5 @@
+import re
+
 import frappe
 from frappe import _
 
@@ -10,22 +12,17 @@ BUSINESS_TYPE_TO_CUSTOMER_GROUP = {
 	"ecommerce": "E-commerce",
 }
 
-
-def _login_email_for(mobile_no):
-	# Frappe's User.name/email must be email-shaped; every party registered
-	# through this app logs in by phone number, not this synthetic address -
-	# see login_with_mobile.
-	return f"{mobile_no}@tijaratapp.users"
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
 @frappe.whitelist(allow_guest=True)
 def login_with_mobile(mobile_no, password):
 	"""Native `/api/method/login` only accepts an email-shaped `usr`, but
 	every party registered through register_trade_party thinks of their
-	mobile number as their identity, not the synthetic
-	`{mobile}@tijaratapp.users` address behind it. This resolves the real
-	User and drives the same LoginManager the native endpoint uses, so the
-	session cookie it sets is indistinguishable from a normal login."""
+	mobile number as their identity, not the real email address behind the
+	account. This resolves the real User (by its `mobile_no` field) and
+	drives the same LoginManager the native endpoint uses, so the session
+	cookie it sets is indistinguishable from a normal login."""
 	user = frappe.db.get_value("User", {"mobile_no": mobile_no, "enabled": 1}, "name")
 	if not user:
 		frappe.throw(_("No account found for this mobile number."), frappe.AuthenticationError)
@@ -44,9 +41,9 @@ def register_trade_party(
 	contact_person,
 	mobile_no,
 	city,
+	email,
 	business_type=None,
 	trade_category=None,
-	email=None,
 	address=None,
 	password=None,
 	latitude=None,
@@ -63,9 +60,20 @@ def register_trade_party(
 	collects (retailer/wholesaler/distributor/manufacturer/ecommerce) and
 	drives the Customer Group. `trade_category` is a separate, optional
 	Item Group classification (e.g. "Beverages") for catalog-side filtering.
+
+	`email` is mandatory (not just stored on the Contact) precisely so it can
+	be used for real communication: it becomes the portal User's actual
+	`email` field, which is what Frappe's own notification/password-reset
+	machinery sends to - login still happens by mobile number regardless
+	(login_with_mobile below), this only affects what address the account is
+	reachable at.
 	"""
+	if not email or not EMAIL_RE.match(email):
+		frappe.throw(_("A valid email address is required."))
 	if frappe.db.exists("Contact", {"mobile_no": mobile_no}):
 		frappe.throw(_("This mobile number is already registered."))
+	if frappe.db.exists("User", email):
+		frappe.throw(_("This email is already registered."))
 
 	customer_group = _customer_group_for(business_type)
 	territory = _resolve_territory(city)
@@ -124,17 +132,11 @@ def register_trade_party(
 			{"link_doctype": "Supplier", "link_name": supplier.name},
 		],
 	}
-	# Always claim the synthetic login email as one of this Contact's
-	# addresses, even when a real email is also given (marked primary
-	# instead, if so) - Frappe's native User.create_contact background job
-	# looks up an existing Contact by the User's email and only auto-creates
-	# a new one if that lookup comes back empty. Without this, that lookup
-	# never finds the Contact we just made, and the native job tries to
-	# create a second, colliding one on every registration.
-	login_email = _login_email_for(mobile_no)
-	contact_doc["email_ids"] = [{"email_id": login_email, "is_primary": 0 if email else 1}]
-	if email:
-		contact_doc["email_ids"].append({"email_id": email, "is_primary": 1})
+	# email is now also the User's own `email` field (see _grant_portal_access),
+	# so this single entry is exactly what Frappe's native User.create_contact
+	# background job looks up by - it'll find this Contact and reuse it rather
+	# than racing to create a colliding duplicate.
+	contact_doc["email_ids"] = [{"email_id": email, "is_primary": 1}]
 	contact = frappe.get_doc(contact_doc).insert(ignore_permissions=True)
 
 	address_doc = None
@@ -155,6 +157,7 @@ def register_trade_party(
 
 	user = _grant_portal_access(
 		mobile_no,
+		email,
 		party_name,
 		customer.name,
 		supplier.name,
@@ -222,6 +225,7 @@ def _resolve_territory(city):
 
 def _grant_portal_access(
 	mobile_no,
+	email,
 	full_name,
 	customer_name,
 	supplier_name,
@@ -230,28 +234,25 @@ def _grant_portal_access(
 	business_type=None,
 	password=None,
 ):
-	email = _login_email_for(mobile_no)
-	# A real login needs a real password - Frappe's User doctype requires an
-	# email-shaped identifier for `name`, which is why the login id is this
-	# synthetic address rather than the mobile number itself; login_with_mobile
-	# below is what lets the *retailer* actually type their phone number.
+	# email is real (register_trade_party requires and dedupes it before this
+	# is ever called), so it doubles as Frappe's own `name`/login-identity
+	# field and as a real, reachable address for password resets and
+	# notifications - login still happens by phone number via
+	# login_with_mobile, which resolves the User by its `mobile_no` field
+	# regardless of what its name/email happen to be.
 	password = password or frappe.generate_hash(length=12)
 
-	if frappe.db.exists("User", email):
-		user = frappe.get_doc("User", email)
-		user.new_password = password
-	else:
-		user = frappe.get_doc(
-			{
-				"doctype": "User",
-				"email": email,
-				"first_name": full_name,
-				"mobile_no": mobile_no,
-				"user_type": "Website User",
-				"send_welcome_email": 0,
-				"new_password": password,
-			}
-		).insert(ignore_permissions=True)
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"email": email,
+			"first_name": full_name,
+			"mobile_no": mobile_no,
+			"user_type": "Website User",
+			"send_welcome_email": 0,
+			"new_password": password,
+		}
+	).insert(ignore_permissions=True)
 
 	# Customer + Supplier are the universal portal roles (every party is both,
 	# via Common Party Accounting). "distributor" additionally gets the
