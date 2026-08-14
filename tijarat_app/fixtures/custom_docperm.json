@@ -95,6 +95,18 @@
  },
  {
   "doctype": "Custom DocPerm",
+  "parent": "Sales Order",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "report": 1,
+  "print": 1,
+  "name": "tijarat-sales-order-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
   "parent": "Customer",
   "parenttype": "DocType",
   "parentfield": "permissions",

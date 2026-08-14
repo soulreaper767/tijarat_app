@@ -6,15 +6,21 @@
 <meta name="theme-color" content="#1B3A5C">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icons/icon-192.png">
-<title>Home — Tijarat</title>
+<title>Dashboard — Tijarat</title>
 <style>
   :root {
-    --primary: #1B3A5C;
-    --primary-hover: #16304c;
+    --navy: #1B3A5C;
+    --navy-dark: #142c47;
+    --gold: #E8A33D;
+    --gold-dark: #B8862F;
+    --teal: #2C7A94;
+    --green: #2E7D5B;
+    --red: #C0392B;
     --bg: #F4F1EC;
-    --text: #2B2B2B;
-    --muted: #6b6b6b;
-    --border: #d9d5cc;
+    --card: #ffffff;
+    --text: #24303d;
+    --muted: #6b7684;
+    --border: #e2e6ea;
   }
   * { box-sizing: border-box; }
   body {
@@ -22,64 +28,240 @@
     font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 32px 16px;
+    padding: 20px 16px 48px;
   }
-  .wrap { max-width: 720px; margin: 0 auto; }
-  .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-  .top h1 { font-size: 20px; margin: 0; }
-  .top p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
-  .logout-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  /* ---- Top bar ---- */
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+    color: #fff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px;
   }
-  .logout-btn:hover { background: #fff; }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-  }
-  .card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-decoration: none;
-    color: var(--text);
-    display: block;
-  }
-  .card h2 { font-size: 15px; margin: 0 0 6px; color: var(--primary); }
-  .card p { font-size: 13px; color: var(--muted); margin: 0; }
-  .badges { margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .top .brand { display: flex; align-items: center; gap: 12px; }
+  .top .brand img { height: 36px; width: 36px; border-radius: 8px; }
+  .top h1 { font-size: 18px; margin: 0; font-weight: 700; }
+  .top p { margin: 2px 0 0; color: #c9d4e0; font-size: 12.5px; }
+  .badges { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
   .badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: rgba(27,58,92,0.08);
-    color: var(--primary);
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    background: rgba(255,255,255,0.14); color: #fff; letter-spacing: 0.3px;
+  }
+  .logout-btn {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px; padding: 9px 16px; font-size: 13px; font-weight: 600;
+    color: #fff; cursor: pointer; white-space: nowrap;
+  }
+  .logout-btn:hover { background: rgba(255,255,255,0.22); }
+
+  /* ---- Section heading ---- */
+  .section-title {
+    font-size: 13px; font-weight: 700; color: var(--navy); text-transform: uppercase;
+    letter-spacing: 0.5px; margin: 26px 0 12px;
+  }
+
+  /* ---- KPI cards ---- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .kpi-card {
+    background: var(--card); border-radius: 12px; padding: 16px 18px;
+    border-left: 4px solid var(--accent, var(--navy));
+    box-shadow: 0 1px 2px rgba(20,44,71,0.06);
+  }
+  .kpi-card .kpi-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+  .kpi-card .kpi-value { font-size: 22px; font-weight: 700; color: var(--text); margin-top: 6px; }
+  .kpi-card .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* ---- Quick links ---- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px; text-decoration: none; color: var(--text); display: block;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .card:hover { box-shadow: 0 4px 14px rgba(20,44,71,0.1); transform: translateY(-1px); }
+  .card h2 { font-size: 14px; margin: 0 0 4px; color: var(--navy); }
+  .card p { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* ---- Chart ---- */
+  .chartbox { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 1px 2px rgba(20,44,71,0.06); }
+  .chart-bars { display: flex; align-items: flex-end; gap: 14px; height: 130px; padding-top: 10px; }
+  .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+  .chart-bar {
+    width: 100%; max-width: 34px; background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+    border-radius: 5px 5px 0 0; min-height: 3px;
+  }
+  .chart-col .chart-val { font-size: 9.5px; color: var(--muted); margin-bottom: 4px; }
+  .chart-col .chart-label { font-size: 10.5px; color: var(--muted); margin-top: 6px; font-weight: 600; }
+
+  /* ---- Kanban ---- */
+  .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kanban-col { background: #fff; border-radius: 12px; border-top: 3px solid var(--col-accent, var(--navy)); overflow: hidden; }
+  .kanban-head {
+    padding: 10px 12px; font-size: 11.5px; font-weight: 700; color: var(--text);
+    display: flex; justify-content: space-between; align-items: center; background: #fafbfc;
+    border-bottom: 1px solid var(--border);
+  }
+  .kanban-count {
+    font-size: 10px; font-weight: 700; color: #fff; background: var(--col-accent, var(--navy));
+    border-radius: 999px; padding: 1px 7px;
+  }
+  .kanban-body { padding: 8px; min-height: 60px; }
+  .kanban-card {
+    background: #fdfdfc; border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-size: 11px; margin-bottom: 7px;
+  }
+  .kanban-card .k-name { font-weight: 700; color: var(--navy); }
+  .kanban-card .k-amt { color: var(--muted); margin-top: 2px; }
+  .kanban-empty { font-size: 11px; color: var(--muted); text-align: center; padding: 14px 0; }
+
+  /* ---- Recent table ---- */
+  table.recent { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px rgba(20,44,71,0.06); }
+  table.recent th {
+    background: var(--navy); color: #fff; font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.3px; padding: 9px 12px; text-align: left;
+  }
+  table.recent td { padding: 9px 12px; font-size: 12px; border-bottom: 1px solid var(--border); }
+  table.recent tr:last-child td { border-bottom: none; }
+  table.recent tr:nth-child(even) td { background: #fafbfc; }
+  .status-pill { font-size: 9.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .status-Draft, .status-OnHold { background: #eef1f4; color: #5a6472; }
+  .status-ToDeliverandBill, .status-ToBill, .status-ToDeliver { background: #fbead2; color: #8a5a00; }
+  .status-Completed, .status-Closed { background: #dff2e8; color: #1c6b46; }
+  .status-Cancelled { background: #fbdada; color: #a12626; }
+
+  .empty-note { font-size: 12.5px; color: var(--muted); background: #fff; border: 1px dashed var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+
+  @media (max-width: 700px) {
+    .kanban { grid-template-columns: repeat(2, 1fr); }
+    .top { flex-direction: column; align-items: flex-start; gap: 12px; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="top">
-      <div>
-        <h1>Welcome, {{ full_name }}</h1>
-        <p>{{ customer if customer else supplier if supplier else "" }}</p>
+      <div class="brand">
+        <img src="/files/tijarat_logo.png" alt="Tijarat">
+        <div>
+          <h1>Welcome, {{ full_name }}</h1>
+          <p>{{ customer if customer else supplier if supplier else "" }}</p>
+          {% if roles %}
+          <div class="badges">
+            {% for role in roles %}
+              {% if role not in ("All", "Guest") %}<span class="badge">{{ role }}</span>{% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
       </div>
       <button class="logout-btn" id="logoutBtn">Log out</button>
     </div>
 
+    {% if buyer %}
+    <div class="section-title">Your Buying Activity</div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--accent: var(--navy);">
+        <div class="kpi-label">Total Orders</div>
+        <div class="kpi-value">{{ buyer.order_count }}</div>
+      </div>
+      <div class="kpi-card" style="--accent: var(--gold-dark);">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value">{{ buyer.total_spend }}</div>
+        <div class="kpi-sub">Lifetime, invoiced</div>
+      </div>
+      <div class="kpi-card" style="--accent: {{ 'var(--red)' if buyer.outstanding_raw else 'var(--green)' }};">
+        <div class="kpi-label">Outstanding</div>
+        <div class="kpi-value">{{ buyer.outstanding }}</div>
+        <div class="kpi-sub">{{ "Payment due" if buyer.outstanding_raw else "All clear" }}</div>
+      </div>
+    </div>
+
+    <div class="section-title">Order Pipeline</div>
+    <div class="kanban">
+      {% set col_colors = {"Draft": "var(--muted)", "In Progress": "var(--gold-dark)", "Completed": "var(--green)", "Cancelled": "var(--red)"} %}
+      {% for col in buyer.board %}
+      <div class="kanban-col" style="--col-accent: {{ col_colors.get(col.label, 'var(--navy)') }};">
+        <div class="kanban-head">
+          <span>{{ col.label }}</span>
+          <span class="kanban-count">{{ col.count }}</span>
+        </div>
+        <div class="kanban-body">
+          {% for o in col.orders %}
+          <div class="kanban-card">
+            <div class="k-name">{{ o.name }}</div>
+            <div class="k-amt">{{ frappe.utils.fmt_money(o.grand_total, currency=currency) }}</div>
+          </div>
+          {% else %}
+          <div class="kanban-empty">No orders</div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="section-title">Spend, Last 6 Months</div>
+    <div class="chartbox">
+      <div class="chart-bars">
+        {% for m in buyer.monthly_trend %}
+        <div class="chart-col">
+          <div class="chart-val">{{ frappe.utils.fmt_money(m.value, currency=currency) if m.value else "" }}</div>
+          <div class="chart-bar" style="height: {{ m.pct }}%;"></div>
+          <div class="chart-label">{{ m.label }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if buyer.recent_orders %}
+    <div class="section-title">Recent Orders</div>
+    <table class="recent">
+      <thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Amount</th></tr></thead>
+      <tbody>
+        {% for o in buyer.recent_orders %}
+        <tr>
+          <td><strong>{{ o.name }}</strong></td>
+          <td>{{ frappe.utils.format_date(o.transaction_date) }}</td>
+          <td><span class="status-pill status-{{ o.status | replace(' ', '') }}">{{ o.status }}</span></td>
+          <td>{{ frappe.utils.fmt_money(o.grand_total, currency=currency) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+
+    {% if seller %}
+    <div class="section-title">Your Selling Activity</div>
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--accent: var(--teal);">
+        <div class="kpi-label">Active Listings</div>
+        <div class="kpi-value">{{ seller.active_listings }}</div>
+      </div>
+      <div class="kpi-card" style="--accent: var(--navy);">
+        <div class="kpi-label">Orders Received</div>
+        <div class="kpi-value">{{ seller.orders_received }}</div>
+      </div>
+      <div class="kpi-card" style="--accent: var(--green);">
+        <div class="kpi-label">Revenue</div>
+        <div class="kpi-value">{{ seller.revenue }}</div>
+        <div class="kpi-sub">Lifetime, from orders</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if not buyer and not seller %}
+    <div class="empty-note">No account activity yet — once you place or receive orders, your dashboard will fill in here.</div>
+    {% endif %}
+
+    <div class="section-title">Quick Links</div>
     <div class="grid">
       <a class="card" href="/orders">
         <h2>My Orders</h2>
         <p>View your order history and status</p>
+      </a>
+      <a class="card" href="/shipments">
+        <h2>My Deliveries</h2>
+        <p>Track dispatch and delivery notes</p>
       </a>
       <a class="card" href="/addresses">
         <h2>My Addresses</h2>
@@ -90,19 +272,10 @@
         <p>Edit your details, change password</p>
       </a>
     </div>
-
-    {% if roles %}
-    <div class="badges">
-      {% for role in roles %}
-        {% if role not in ("All", "Guest") %}
-          <span class="badge">{{ role }}</span>
-        {% endif %}
-      {% endfor %}
-    </div>
-    {% endif %}
   </div>
 
 <script>
+window.csrf_token = "{{ csrf_token }}";
 document.getElementById('logoutBtn').addEventListener('click', function () {
   fetch('/api/method/logout', {
     method: 'POST',
