@@ -46,4 +46,28 @@ def execute(filters=None):
 	for row in rows:
 		row["compliance"] = round((row.completed / row.planned) * 100, 1) if row.planned else 0
 		data.append(row)
-	return columns, data
+	data.sort(key=lambda r: r["compliance"], reverse=True)
+
+	total_planned = sum(r["planned"] for r in data)
+	total_completed = sum(r["completed"] for r in data)
+	total_missed = sum(r["missed"] for r in data)
+	report_summary = [
+		{"value": total_planned, "label": "Planned Visits", "datatype": "Int", "indicator": "Blue"},
+		{"value": total_completed, "label": "Completed", "datatype": "Int", "indicator": "Green"},
+		{"value": total_missed, "label": "Missed", "datatype": "Int", "indicator": "Red"},
+		{
+			"value": round((total_completed / total_planned) * 100, 1) if total_planned else 0,
+			"label": "Overall Compliance",
+			"datatype": "Percent",
+			"indicator": "Orange",
+		},
+	]
+	chart = {
+		"data": {
+			"labels": [r["sales_person"] for r in data[:10]],
+			"datasets": [{"name": "Compliance %", "values": [r["compliance"] for r in data[:10]]}],
+		},
+		"type": "bar",
+		"colors": ["#2C7A94"],
+	}
+	return columns, data, None, chart, report_summary

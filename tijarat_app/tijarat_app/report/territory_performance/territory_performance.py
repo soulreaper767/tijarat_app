@@ -1,7 +1,9 @@
 import frappe
+from frappe.utils import flt
 
 
 def execute(filters=None):
+	filters = filters or {}
 	columns = [
 		{"label": "Territory", "fieldname": "territory", "fieldtype": "Link", "options": "Territory", "width": 150},
 		{"label": "Orders", "fieldname": "order_count", "fieldtype": "Int", "width": 90},
@@ -9,14 +11,24 @@ def execute(filters=None):
 		{"label": "Open Territory Exceptions", "fieldname": "open_exceptions", "fieldtype": "Int", "width": 170},
 	]
 
+	conditions = ["so.docstatus = 1"]
+	values = {}
+	if filters.get("from_date"):
+		conditions.append("so.transaction_date >= %(from_date)s")
+		values["from_date"] = filters["from_date"]
+	if filters.get("to_date"):
+		conditions.append("so.transaction_date <= %(to_date)s")
+		values["to_date"] = filters["to_date"]
+
 	orders = frappe.db.sql(
 		"""
 		select c.territory as territory, count(*) as order_count, sum(so.grand_total) as gmv
 		from `tabSales Order` so
 		join `tabCustomer` c on c.name = so.customer
-		where so.docstatus = 1
+		where {conditions}
 		group by c.territory
-		""",
+		""".format(conditions=" and ".join(conditions)),
+		values,
 		as_dict=True,
 	)
 	exceptions = frappe.db.sql(
@@ -42,4 +54,19 @@ def execute(filters=None):
 				"open_exceptions": exception_map.get(row.territory, 0),
 			}
 		)
-	return columns, data
+	data.sort(key=lambda r: flt(r["gmv"]), reverse=True)
+
+	report_summary = [
+		{"value": len(data), "label": "Active Territories", "datatype": "Int", "indicator": "Blue"},
+		{"value": sum(flt(r["gmv"]) for r in data), "label": "Total GMV", "datatype": "Currency", "indicator": "Green"},
+		{"value": sum(r["open_exceptions"] for r in data), "label": "Open Exceptions", "datatype": "Int", "indicator": "Red"},
+	]
+	chart = {
+		"data": {
+			"labels": [r["territory"] for r in data[:10]],
+			"datasets": [{"name": "GMV", "values": [flt(r["gmv"]) for r in data[:10]]}],
+		},
+		"type": "bar",
+		"colors": ["#1B3A5C"],
+	}
+	return columns, data, None, chart, report_summary

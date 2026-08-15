@@ -296,6 +296,30 @@
  },
  {
   "doctype": "Custom DocPerm",
+  "parent": "Item Listing",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Customer",
+  "permlevel": 0,
+  "read": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-item-listing-customer"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Item Listing",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Supplier",
+  "permlevel": 0,
+  "read": 1,
+  "select": 1,
+  "report": 1,
+  "name": "tijarat-item-listing-supplier"
+ },
+ {
+  "doctype": "Custom DocPerm",
   "parent": "Account",
   "parenttype": "DocType",
   "parentfield": "permissions",

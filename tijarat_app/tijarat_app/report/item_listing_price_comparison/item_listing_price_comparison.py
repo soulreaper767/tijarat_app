@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import flt
 
 
 def execute(filters=None):
@@ -24,6 +25,9 @@ def execute(filters=None):
 	if filters.get("territory"):
 		conditions.append("(l.territory = %(territory)s or l.territory is null or l.territory = '')")
 		values["territory"] = filters["territory"]
+	if filters.get("supplier"):
+		conditions.append("l.supplier = %(supplier)s")
+		values["supplier"] = filters["supplier"]
 
 	data = frappe.db.sql(
 		"""
@@ -37,4 +41,23 @@ def execute(filters=None):
 		values,
 		as_dict=True,
 	)
-	return columns, data
+
+	supplier_counts = {}
+	for row in data:
+		supplier_counts[row.supplier] = supplier_counts.get(row.supplier, 0) + 1
+	top_suppliers = sorted(supplier_counts.items(), key=lambda x: -x[1])[:10]
+
+	report_summary = [
+		{"value": len(data), "label": "Active Listings", "datatype": "Int", "indicator": "Blue"},
+		{"value": len({r.item for r in data}), "label": "Distinct Items", "datatype": "Int", "indicator": "Purple"},
+		{"value": len({r.supplier for r in data}), "label": "Distinct Suppliers", "datatype": "Int", "indicator": "Green"},
+	]
+	chart = {
+		"data": {
+			"labels": [s for s, _ in top_suppliers],
+			"datasets": [{"name": "Listings", "values": [c for _, c in top_suppliers]}],
+		},
+		"type": "bar",
+		"colors": ["#E8A33D"],
+	}
+	return columns, data, None, chart, report_summary

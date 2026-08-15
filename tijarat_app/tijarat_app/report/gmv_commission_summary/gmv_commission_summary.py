@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import flt
 
 
 def execute(filters=None):
@@ -38,4 +39,26 @@ def execute(filters=None):
 		values,
 		as_dict=True,
 	)
-	return columns, data
+
+	total_gmv = sum(flt(r.gmv) for r in data)
+	total_platform = sum(flt(r.platform_commission) for r in data)
+	total_referral = sum(flt(r.referral_commission) for r in data)
+	total_invoices = sum(r.invoice_count for r in data)
+
+	report_summary = [
+		{"value": total_invoices, "label": "Invoices", "datatype": "Int", "indicator": "Blue"},
+		{"value": total_gmv, "label": "Total GMV", "datatype": "Currency", "indicator": "Green"},
+		{"value": total_platform, "label": "Platform Commission", "datatype": "Currency", "indicator": "Orange"},
+		{"value": total_referral, "label": "Referral Commission", "datatype": "Currency", "indicator": "Purple"},
+	]
+
+	chart = {
+		"data": {
+			"labels": [r.company for r in data],
+			"datasets": [{"name": "GMV", "values": [flt(r.gmv) for r in data]}],
+		},
+		"type": "bar",
+		"colors": ["#1B3A5C"],
+	}
+
+	return columns, data, None, chart, report_summary
