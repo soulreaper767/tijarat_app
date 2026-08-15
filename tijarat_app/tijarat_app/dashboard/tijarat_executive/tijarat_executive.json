@@ -1,0 +1,28 @@
+{
+ "cards": [
+  {"card": "Total GMV"},
+  {"card": "Total Orders"},
+  {"card": "Active Customers"},
+  {"card": "Active Suppliers"},
+  {"card": "Open Support Tickets"}
+ ],
+ "charts": [
+  {"chart": "Tijarat GMV Trend", "width": "Full"},
+  {"chart": "Tijarat Order Volume", "width": "Half"},
+  {"chart": "Tijarat Orders by Status", "width": "Half"},
+  {"chart": "Tijarat New Registrations", "width": "Half"},
+  {"chart": "Tijarat Support Tickets by State", "width": "Half"}
+ ],
+ "creation": "2026-08-15 00:00:00.000000",
+ "dashboard_name": "Tijarat Executive",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2026-08-15 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Tijarat Executive",
+ "owner": "Administrator"
+}

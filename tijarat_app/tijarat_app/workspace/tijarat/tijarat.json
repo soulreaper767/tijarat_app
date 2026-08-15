@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"tj_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Tijarat</b></span>\", \"col\": 12}}, {\"id\": \"tj_paragraph\", \"type\": \"paragraph\", \"data\": {\"text\": \"Marketplace listings, territory and route management, order booking, fulfillment, and commissions - the core Tijarat platform.\", \"col\": 12}}, {\"id\": \"tj_shortcut_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing\", \"col\": 3}}, {\"id\": \"tj_shortcut_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Route\", \"col\": 3}}, {\"id\": \"tj_shortcut_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Journey Plan Visit\", \"col\": 3}}, {\"id\": \"tj_shortcut_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Exception Request\", \"col\": 3}}, {\"id\": \"tj_shortcut_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Partner\", \"col\": 3}}, {\"id\": \"tj_shortcut_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Booking\", \"col\": 3}}, {\"id\": \"tj_shortcut_6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Service Package\", \"col\": 3}}, {\"id\": \"tj_shortcut_7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral Code\", \"col\": 3}}, {\"id\": \"tj_shortcut_8\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Trade Scheme\", \"col\": 3}}, {\"id\": \"tj_shortcut_9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Support Ticket\", \"col\": 3}}, {\"id\": \"tj_shortcut_10\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Damaged Goods Entry\", \"col\": 3}}, {\"id\": \"tj_reports_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Reports</b></span>\", \"col\": 12}}, {\"id\": \"tj_shortcut_11\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing Price Comparison\", \"col\": 3}}, {\"id\": \"tj_shortcut_12\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"GMV & Commission Summary\", \"col\": 3}}, {\"id\": \"tj_shortcut_13\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_14\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Lifecycle Funnel\", \"col\": 3}}, {\"id\": \"tj_shortcut_15\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"PJP Compliance\", \"col\": 3}}, {\"id\": \"tj_shortcut_16\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_17\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral & Affiliate Commission\", \"col\": 3}}]",
+ "content": "[{\"id\": \"tj_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Tijarat</b></span>\", \"col\": 12}}, {\"id\": \"tj_paragraph\", \"type\": \"paragraph\", \"data\": {\"text\": \"Marketplace listings, territory and route management, order booking, fulfillment, and commissions - the core Tijarat platform.\", \"col\": 12}}, {\"id\": \"tj_dash_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Executive Dashboard</b></span>\", \"col\": 12}}, {\"id\": \"tj_shortcut_dash\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Tijarat Executive\", \"col\": 4}}, {\"id\": \"tj_shortcut_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing\", \"col\": 3}}, {\"id\": \"tj_shortcut_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Route\", \"col\": 3}}, {\"id\": \"tj_shortcut_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Journey Plan Visit\", \"col\": 3}}, {\"id\": \"tj_shortcut_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Exception Request\", \"col\": 3}}, {\"id\": \"tj_shortcut_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Partner\", \"col\": 3}}, {\"id\": \"tj_shortcut_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Booking\", \"col\": 3}}, {\"id\": \"tj_shortcut_6\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Service Package\", \"col\": 3}}, {\"id\": \"tj_shortcut_7\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral Code\", \"col\": 3}}, {\"id\": \"tj_shortcut_8\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Trade Scheme\", \"col\": 3}}, {\"id\": \"tj_shortcut_9\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Support Ticket\", \"col\": 3}}, {\"id\": \"tj_shortcut_10\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Damaged Goods Entry\", \"col\": 3}}, {\"id\": \"tj_shortcut_kanban_so\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Orders by Status\", \"col\": 3}}, {\"id\": \"tj_shortcut_kanban_st\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Support Tickets by State\", \"col\": 3}}, {\"id\": \"tj_reports_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Reports</b></span>\", \"col\": 12}}, {\"id\": \"tj_shortcut_11\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item Listing Price Comparison\", \"col\": 3}}, {\"id\": \"tj_shortcut_12\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"GMV & Commission Summary\", \"col\": 3}}, {\"id\": \"tj_shortcut_13\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_14\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Lifecycle Funnel\", \"col\": 3}}, {\"id\": \"tj_shortcut_15\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"PJP Compliance\", \"col\": 3}}, {\"id\": \"tj_shortcut_16\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Courier Performance\", \"col\": 3}}, {\"id\": \"tj_shortcut_17\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Referral & Affiliate Commission\", \"col\": 3}}, {\"id\": \"tj_shortcut_18\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Item-Wise Sales Analysis\", \"col\": 3}}, {\"id\": \"tj_shortcut_19\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Top Customers\", \"col\": 3}}, {\"id\": \"tj_shortcut_20\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Top Suppliers\", \"col\": 3}}, {\"id\": \"tj_shortcut_21\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Best Order Bookers\", \"col\": 3}}, {\"id\": \"tj_shortcut_22\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Sales Trend\", \"col\": 3}}, {\"id\": \"tj_shortcut_23\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Deal Profitability\", \"col\": 3}}, {\"id\": \"tj_accounting_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Accounting</b></span>\", \"col\": 12}}, {\"id\": \"tj_shortcut_24\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Accounts Receivable\", \"col\": 3}}, {\"id\": \"tj_shortcut_25\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Accounts Payable\", \"col\": 3}}, {\"id\": \"tj_shortcut_26\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"General Ledger\", \"col\": 3}}, {\"id\": \"tj_shortcut_27\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Trial Balance\", \"col\": 3}}, {\"id\": \"tj_shortcut_28\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Profit and Loss Statement\", \"col\": 3}}, {\"id\": \"tj_shortcut_29\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Balance Sheet\", \"col\": 3}}]",
  "creation": "2026-08-12 00:00:00.000000",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "Tijarat",
  "links": [],
- "modified": "2026-08-12 00:00:00.000000",
+ "modified": "2026-08-15 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tijarat App",
  "name": "Tijarat",
@@ -21,27 +21,26 @@
  "public": 1,
  "quick_lists": [],
  "roles": [
-  {
-   "role": "System Manager"
-  },
-  {
-   "role": "Territory Manager"
-  },
-  {
-   "role": "Distributor Admin"
-  },
-  {
-   "role": "Field Officer"
-  },
-  {
-   "role": "Warehouse Manager"
-  },
-  {
-   "role": "Support Agent"
-  }
+  {"role": "System Manager"},
+  {"role": "Territory Manager"},
+  {"role": "Distributor Admin"},
+  {"role": "Field Officer"},
+  {"role": "Warehouse Manager"},
+  {"role": "Support Agent"},
+  {"role": "Accounts Manager"}
  ],
  "sequence_id": 1.0,
  "shortcuts": [
+  {
+   "label": "Tijarat Executive",
+   "link_to": "Tijarat Executive",
+   "type": "Dashboard",
+   "color": "Blue",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "bar-chart"
+  },
   {
    "label": "Item Listing",
    "link_to": "Item Listing",
@@ -153,6 +152,26 @@
    "icon": "settings"
   },
   {
+   "label": "Sales Orders by Status",
+   "link_to": "Sales Orders by Status",
+   "type": "Kanban Board",
+   "color": "Orange",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "list"
+  },
+  {
+   "label": "Support Tickets by State",
+   "link_to": "Support Tickets by State",
+   "type": "Kanban Board",
+   "color": "Orange",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "list"
+  },
+  {
    "label": "Item Listing Price Comparison",
    "link_to": "Item Listing Price Comparison",
    "type": "Report",
@@ -215,6 +234,126 @@
   {
    "label": "Referral & Affiliate Commission",
    "link_to": "Referral & Affiliate Commission",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Item-Wise Sales Analysis",
+   "link_to": "Item-Wise Sales Analysis",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Top Customers",
+   "link_to": "Top Customers",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Top Suppliers",
+   "link_to": "Top Suppliers",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Best Order Bookers",
+   "link_to": "Best Order Bookers",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Sales Trend",
+   "link_to": "Sales Trend",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Deal Profitability",
+   "link_to": "Deal Profitability",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Accounts Receivable",
+   "link_to": "Accounts Receivable",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Accounts Payable",
+   "link_to": "Accounts Payable",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "General Ledger",
+   "link_to": "General Ledger",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Trial Balance",
+   "link_to": "Trial Balance",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Profit and Loss Statement",
+   "link_to": "Profit and Loss Statement",
+   "type": "Report",
+   "color": "Grey",
+   "format": "",
+   "doc_view": "",
+   "stats_filter": "{}",
+   "icon": "report"
+  },
+  {
+   "label": "Balance Sheet",
+   "link_to": "Balance Sheet",
    "type": "Report",
    "color": "Grey",
    "format": "",

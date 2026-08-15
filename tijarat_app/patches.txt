@@ -5,3 +5,4 @@
 [post_model_sync]
 tijarat_app.patches.create_tijarat_letter_head
 tijarat_app.patches.curate_portal_sidebar
+tijarat_app.patches.create_tijarat_kanban_boards
