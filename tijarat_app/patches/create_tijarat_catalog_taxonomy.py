@@ -80,10 +80,36 @@ GROUP_ATTRIBUTES = {
 
 
 def execute():
+	_ensure_default_attributes_field()
 	_create_item_attributes()
 	_create_item_groups()
 	_map_group_attributes()
 	frappe.db.commit()
+
+
+def _ensure_default_attributes_field():
+	"""fixtures/custom_field.json isn't synced onto the site until the
+	post_schema_updates step of `bench migrate`, which runs after every
+	post_model_sync patch (this one included) - so Item Group.
+	default_item_attributes can't be relied on to exist yet. Create it here
+	directly so _map_group_attributes() below has somewhere to write to; the
+	fixture entry still keeps it in place on future installs/re-syncs."""
+	name = "Item Group-default_item_attributes"
+	if frappe.db.exists("Custom Field", name):
+		return
+	frappe.get_doc(
+		{
+			"doctype": "Custom Field",
+			"dt": "Item Group",
+			"fieldname": "default_item_attributes",
+			"label": "Default Item Attributes",
+			"fieldtype": "Table",
+			"options": "Item Group Default Attribute",
+			"insert_after": "item_group_name",
+			"name": name,
+		}
+	).insert(ignore_permissions=True)
+	frappe.clear_cache(doctype="Item Group")
 
 
 def _create_item_attributes():
@@ -139,7 +165,7 @@ def _map_group_attributes():
 		if not frappe.db.exists("Item Group", group_name):
 			continue
 		doc = frappe.get_doc("Item Group", group_name)
-		existing = {row.attribute for row in doc.get("default_item_attributes", [])}
+		existing = {row.attribute for row in (doc.default_item_attributes or [])}
 		changed = False
 		for attribute_name in attribute_names:
 			if attribute_name not in existing:
