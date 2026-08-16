@@ -146,7 +146,9 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "write": 1
+   "write": 1,
+   "import": 1,
+   "set_user_permissions": 1
   },
   {
    "create": 1,
