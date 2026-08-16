@@ -80,6 +80,7 @@ fixtures = [
 					"Customer Service",
 					"Field Officer",
 					"Sales Coordinator",
+					"System Manager",
 				],
 			]
 		],
