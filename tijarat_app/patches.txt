@@ -11,3 +11,4 @@ tijarat_app.patches.create_tijarat_notifications
 tijarat_app.patches.create_tijarat_auto_email_reports
 tijarat_app.patches.create_tijarat_catalog_taxonomy
 tijarat_app.patches.fix_item_listing_permission_shadowing
+tijarat_app.patches.publish_existing_items_to_webshop

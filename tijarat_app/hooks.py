@@ -126,6 +126,7 @@ doc_events = {
 	},
 	"Item": {
 		"validate": "tijarat_app.api.catalog.apply_item_group_attributes",
+		"after_insert": "tijarat_app.api.catalog.publish_new_item_to_webshop",
 	},
 	"Sales Invoice": {
 		"validate": "tijarat_app.api.pricing.validate_mrp_ceiling",
