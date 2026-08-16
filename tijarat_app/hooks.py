@@ -26,6 +26,7 @@ fixtures = [
 					"Supplier",
 					"Territory",
 					"Item",
+					"Item Group",
 					"Sales Order",
 					"Sales Order Item",
 					"Sales Invoice",
@@ -121,6 +122,9 @@ doc_events = {
 	},
 	"Purchase Order": {
 		"on_submit": "tijarat_app.api.lifecycle.mark_productive_supplier",
+	},
+	"Item": {
+		"validate": "tijarat_app.api.catalog.apply_item_group_attributes",
 	},
 	"Sales Invoice": {
 		"validate": "tijarat_app.api.pricing.validate_mrp_ceiling",

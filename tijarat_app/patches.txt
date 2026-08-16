@@ -9,3 +9,4 @@ tijarat_app.patches.create_tijarat_kanban_boards
 tijarat_app.patches.create_referral_payable_accounts
 tijarat_app.patches.create_tijarat_notifications
 tijarat_app.patches.create_tijarat_auto_email_reports
+tijarat_app.patches.create_tijarat_catalog_taxonomy

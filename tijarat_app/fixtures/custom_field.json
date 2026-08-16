@@ -586,5 +586,16 @@
   "fieldtype": "Check",
   "insert_after": "storage_rate_per_sqft",
   "name": "Warehouse-is_cold_chain"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Item Group",
+  "fieldname": "default_item_attributes",
+  "label": "Default Item Attributes",
+  "description": "The attributes that describe a variant Item Template under this Item Group - auto-applied to a new variant template's attribute table so it captures industry-specific detail (size, fabric, dosage form, material, etc.) instead of just generic name/description.",
+  "fieldtype": "Table",
+  "options": "Item Group Default Attribute",
+  "insert_after": "item_group_name",
+  "name": "Item Group-default_item_attributes"
  }
 ]
