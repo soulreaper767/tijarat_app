@@ -9,6 +9,7 @@
   "is_active",
   "column_break_1",
   "coverage_territories",
+  "served_territories",
   "section_break_1",
   "api_base_url",
   "api_key",
@@ -43,6 +44,12 @@
    "fieldname": "coverage_territories",
    "fieldtype": "Small Text",
    "label": "Coverage Notes (territories/cities served)"
+  },
+  {
+   "fieldname": "served_territories",
+   "fieldtype": "Table",
+   "options": "Territory Coverage",
+   "label": "Served Territories (structured, for auto-assignment)"
   },
   {
    "collapsible": 1,

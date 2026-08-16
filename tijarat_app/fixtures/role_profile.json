@@ -156,5 +156,18 @@
    }
   ],
   "name": "Tijarat - Retailer / Supplier Portal"
+ },
+ {
+  "doctype": "Role Profile",
+  "role_profile": "Tijarat - Sales Coordinator",
+  "roles": [
+   {
+    "role": "Sales Coordinator"
+   },
+   {
+    "role": "Sales User"
+   }
+  ],
+  "name": "Tijarat - Sales Coordinator"
  }
 ]

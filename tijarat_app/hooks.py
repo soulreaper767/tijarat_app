@@ -48,6 +48,7 @@ fixtures = [
 					"Rider",
 					"Support Agent",
 					"Customer Service",
+					"Sales Coordinator",
 				],
 			]
 		],
@@ -77,6 +78,7 @@ fixtures = [
 					"Supplier",
 					"Customer Service",
 					"Field Officer",
+					"Sales Coordinator",
 				],
 			]
 		],
@@ -91,6 +93,16 @@ fixtures = [
 			]
 		],
 	},
+	{
+		"doctype": "Property Setter",
+		"filters": [
+			[
+				"doc_type",
+				"in",
+				["Sales Order", "Delivery Note"],
+			]
+		],
+	},
 ]
 
 after_install = "tijarat_app.install.after_install"
@@ -102,7 +114,10 @@ doc_events = {
 			"tijarat_app.api.territory.validate_territory_lock",
 			"tijarat_app.api.pricing.apply_service_package_charges",
 		],
-		"on_submit": "tijarat_app.api.lifecycle.mark_productive_customer",
+		"on_submit": [
+			"tijarat_app.api.lifecycle.mark_productive_customer",
+			"tijarat_app.api.invoicing.auto_invoice_and_assign",
+		],
 	},
 	"Purchase Order": {
 		"on_submit": "tijarat_app.api.lifecycle.mark_productive_supplier",
@@ -110,6 +125,12 @@ doc_events = {
 	"Sales Invoice": {
 		"validate": "tijarat_app.api.pricing.validate_mrp_ceiling",
 		"on_submit": "tijarat_app.api.commission.accrue_commission",
+	},
+	"Payment Entry": {
+		"on_submit": "tijarat_app.api.commission.settle_referral_payable_on_payment",
+	},
+	"Delivery Note": {
+		"on_submit": "tijarat_app.api.dispatch.auto_assign_courier",
 	},
 }
 

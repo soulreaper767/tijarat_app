@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "format:TKT-{#####}",
+ "autoname": "format:TKT-.#####",
  "creation": "2026-08-12 00:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",

@@ -541,6 +541,17 @@
  },
  {
   "doctype": "Custom Field",
+  "dt": "Sales Invoice",
+  "fieldname": "referral_payable_posted",
+  "label": "Referral Payable Posted",
+  "fieldtype": "Check",
+  "read_only": 1,
+  "description": "Set once the referral commission liability has actually been booked (on payment receipt) - prevents double-posting across multiple partial payments against the same invoice.",
+  "insert_after": "referral_commission_amount",
+  "name": "Sales Invoice-referral_payable_posted"
+ },
+ {
+  "doctype": "Custom Field",
   "dt": "Warehouse",
   "fieldname": "cd_warehouse_section",
   "label": "Tijarat Warehouse-as-a-Service",

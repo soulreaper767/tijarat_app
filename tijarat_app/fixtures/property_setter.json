@@ -1,0 +1,22 @@
+[
+ {
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocType",
+  "doc_type": "Sales Order",
+  "field_name": null,
+  "property": "autoname",
+  "property_type": "Data",
+  "value": "format:{territory}-SO-.#####",
+  "name": "Sales Order-main-autoname"
+ },
+ {
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocType",
+  "doc_type": "Delivery Note",
+  "field_name": null,
+  "property": "autoname",
+  "property_type": "Data",
+  "value": "format:{territory}-DN-.#####",
+  "name": "Delivery Note-main-autoname"
+ }
+]

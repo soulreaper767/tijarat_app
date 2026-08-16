@@ -119,6 +119,7 @@ def book_order(customer, lines, booking_channel="Self", delivery_date=None, serv
 		{
 			"doctype": "Sales Order",
 			"customer": customer,
+			"territory": customer_territory,
 			"delivery_date": delivery_date or frappe.utils.add_days(frappe.utils.nowdate(), 2),
 			"booking_channel": booking_channel,
 			"booked_by": frappe.session.user,

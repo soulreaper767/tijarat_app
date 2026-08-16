@@ -40,5 +40,11 @@
   "role_name": "Customer Service",
   "desk_access": 1,
   "name": "Customer Service"
+ },
+ {
+  "doctype": "Role",
+  "role_name": "Sales Coordinator",
+  "desk_access": 1,
+  "name": "Sales Coordinator"
  }
 ]

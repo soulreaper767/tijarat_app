@@ -42,6 +42,32 @@
  },
  {
   "doctype": "Custom DocPerm",
+  "parent": "Sales Invoice",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Sales Coordinator",
+  "permlevel": 0,
+  "read": 1,
+  "write": 1,
+  "report": 1,
+  "print": 1,
+  "email": 1,
+  "name": "tijarat-sales-invoice-sales-coordinator"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Sales Order",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Sales Coordinator",
+  "permlevel": 0,
+  "read": 1,
+  "report": 1,
+  "print": 1,
+  "name": "tijarat-sales-order-sales-coordinator"
+ },
+ {
+  "doctype": "Custom DocPerm",
   "parent": "Territory",
   "parenttype": "DocType",
   "parentfield": "permissions",
