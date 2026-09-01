@@ -1,0 +1,37 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"fo_header\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Field Officer</b></span>\", \"col\": 12}}, {\"id\": \"fo_paragraph\", \"type\": \"paragraph\", \"data\": {\"text\": \"Your visits, assisted order booking, and on-the-ground issue resolution - everything else in Tijarat lives elsewhere.\", \"col\": 12}}, {\"id\": \"fo_shortcut_0\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Today's Visits\", \"col\": 4}}, {\"id\": \"fo_shortcut_1\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"My Route\", \"col\": 4}}, {\"id\": \"fo_shortcut_2\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Book an Order\", \"col\": 4}}, {\"id\": \"fo_shortcut_3\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Raise Support Ticket\", \"col\": 4}}, {\"id\": \"fo_shortcut_4\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Territory Exception Request\", \"col\": 4}}, {\"id\": \"fo_shortcut_5\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"My PJP Compliance\", \"col\": 4}}]",
+ "creation": "2026-10-10 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "non-profit",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Field Officer",
+ "links": [],
+ "modified": "2026-10-10 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Tijarat App",
+ "name": "Field Officer",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {"role": "Field Officer"},
+  {"role": "System Manager"}
+ ],
+ "sequence_id": 20.0,
+ "shortcuts": [
+  {"label": "Today's Visits", "link_to": "Journey Plan Visit", "type": "DocType", "color": "Blue", "format": "", "doc_view": "List", "stats_filter": "{\"visit_date\":[\"=\",\"Today\"]}", "icon": "list"},
+  {"label": "My Route", "link_to": "Route", "type": "DocType", "color": "Grey", "format": "", "doc_view": "List", "stats_filter": "{}", "icon": "settings"},
+  {"label": "Book an Order", "link_to": "Sales Order", "type": "DocType", "color": "Green", "format": "", "doc_view": "New", "stats_filter": "{}", "icon": "file-add"},
+  {"label": "Raise Support Ticket", "link_to": "Support Ticket", "type": "DocType", "color": "Orange", "format": "", "doc_view": "New", "stats_filter": "{}", "icon": "file-add"},
+  {"label": "Territory Exception Request", "link_to": "Territory Exception Request", "type": "DocType", "color": "Grey", "format": "", "doc_view": "New", "stats_filter": "{}", "icon": "file-add"},
+  {"label": "My PJP Compliance", "link_to": "PJP Compliance", "type": "Report", "color": "Grey", "format": "", "doc_view": "", "stats_filter": "{}", "icon": "graph"}
+ ],
+ "title": "Field Officer"
+}

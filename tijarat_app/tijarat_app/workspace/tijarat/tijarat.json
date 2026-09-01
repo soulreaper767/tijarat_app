@@ -12,7 +12,7 @@
  "is_hidden": 0,
  "label": "Tijarat",
  "links": [],
- "modified": "2026-08-15 00:00:00.000000",
+ "modified": "2026-10-10 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Tijarat App",
  "name": "Tijarat",
@@ -29,9 +29,6 @@
   },
   {
    "role": "Distributor Admin"
-  },
-  {
-   "role": "Field Officer"
   },
   {
    "role": "Warehouse Manager"

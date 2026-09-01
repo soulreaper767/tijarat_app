@@ -765,5 +765,18 @@
   "email": 1,
   "set_user_permissions": 1,
   "name": "tijarat-account-system-manager"
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Support Ticket",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "read": 1,
+  "create": 1,
+  "report": 1,
+  "print": 1,
+  "name": "tijarat-support-ticket-field-officer"
  }
 ]
