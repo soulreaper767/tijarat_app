@@ -4,7 +4,81 @@ import frappe
 def after_install():
 	seed_customer_groups()
 	enable_common_party_accounting()
+	seed_territories()
 	frappe.db.commit()
+
+
+def after_migrate():
+	# after_install-only seeding is fragile: it never re-runs once the app is
+	# already installed, so nothing here gets repaired if a record is
+	# accidentally deleted, or backfilled onto a site that installed an
+	# older version of this app. Mirror after_install here too.
+	seed_customer_groups()
+	enable_common_party_accounting()
+	seed_territories()
+	frappe.db.commit()
+
+
+# Territory is a native Frappe/ERPNext tree doctype - Tijarat's whole
+# territory-matching model (see api/territory.py) runs on top of it, so this
+# seeds the real Pakistan > Punjab > Lahore hierarchy plus Lahore's own
+# main trade/commercial sub-territories, rather than leaving the tree empty.
+TERRITORY_TREE = {
+	"All Territories": {
+		"is_group": 1,
+		"parent": None,
+		"children": {
+			"Pakistan": {
+				"is_group": 1,
+				"children": {
+					"Punjab": {
+						"is_group": 1,
+						"children": {
+							"Lahore": {
+								"is_group": 1,
+								"children": {
+									"Gulberg": {},
+									"Model Town": {},
+									"Johar Town": {},
+									"DHA Lahore": {},
+									"Iqbal Town": {},
+									"Township": {},
+									"Faisal Town": {},
+									"Samanabad": {},
+									"Shalimar": {},
+									"Lahore Cantt": {},
+									"Badami Bagh": {},
+									"Shah Alam Market": {},
+									"Walled City Lahore": {},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+}
+
+
+def seed_territories():
+	def _create(name, parent, is_group):
+		if frappe.db.exists("Territory", name):
+			return
+		frappe.get_doc({
+			"doctype": "Territory",
+			"territory_name": name,
+			"parent_territory": parent,
+			"is_group": 1 if is_group else 0,
+		}).insert(ignore_permissions=True)
+
+	def _walk(tree, parent=None):
+		for name, cfg in tree.items():
+			_create(name, parent, is_group=bool(cfg.get("children")))
+			if cfg.get("children"):
+				_walk(cfg["children"], parent=name)
+
+	_walk(TERRITORY_TREE)
 
 
 def seed_customer_groups():

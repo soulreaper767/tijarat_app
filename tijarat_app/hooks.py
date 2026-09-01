@@ -108,6 +108,7 @@ fixtures = [
 ]
 
 after_install = "tijarat_app.install.after_install"
+after_migrate = "tijarat_app.install.after_migrate"
 
 # --- Document Events ----------------------------------------------------
 doc_events = {
