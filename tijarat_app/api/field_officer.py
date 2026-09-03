@@ -16,6 +16,23 @@ def _is_isolated_field_officer(user=None):
 	return not any(r in roles for r in _UNRESTRICTED_ROLES)
 
 
+def set_field_officer_default_workspace(doc, method=None):
+	"""Frappe's get_home_page() resolves User.default_workspace before
+	anything else - Role.home_page, Portal Settings, website_route_rules,
+	whatever domain/login page was used to authenticate - so this is what
+	actually decides where a Field Officer lands after login, regardless of
+	entry point. Runs on every User save so it self-heals for any user who
+	picks up the Field Officer role later, not just the ones seeded by
+	seed_field_officers()."""
+	roles = {r.role for r in doc.get("roles", [])}
+	if "Field Officer" not in roles:
+		return
+	if any(r in roles for r in _UNRESTRICTED_ROLES):
+		return
+	if not doc.default_workspace:
+		doc.default_workspace = "Field Officer"
+
+
 def _own_sales_person(user):
 	employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
 	if not employee:

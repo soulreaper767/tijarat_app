@@ -8,6 +8,7 @@ def after_install():
 	enforce_strict_user_permissions()
 	seed_territories()
 	seed_field_officers()
+	backfill_field_officer_default_workspace()
 	restrict_field_officer_workspaces()
 	frappe.db.commit()
 
@@ -23,8 +24,31 @@ def after_migrate():
 	enforce_strict_user_permissions()
 	seed_territories()
 	seed_field_officers()
+	backfill_field_officer_default_workspace()
 	restrict_field_officer_workspaces()
 	frappe.db.commit()
+
+
+def backfill_field_officer_default_workspace():
+	"""set_field_officer_default_workspace() (User.validate hook, see
+	api/field_officer.py) only fires on save - this catches every Field
+	Officer user that already existed before that hook shipped, or that was
+	created directly through Desk rather than a save that triggered it, so
+	login lands on the Field Officer workspace no matter which domain/login
+	page was used to authenticate."""
+	from tijarat_app.api.field_officer import _UNRESTRICTED_ROLES
+
+	users = set(frappe.get_all(
+		"Has Role", filters={"role": "Field Officer", "parenttype": "User"}, pluck="parent"
+	))
+	for user in users:
+		if user in ("Administrator", "Guest"):
+			continue
+		roles = set(frappe.get_roles(user))
+		if any(r in roles for r in _UNRESTRICTED_ROLES):
+			continue
+		if frappe.db.get_value("User", user, "default_workspace") != "Field Officer":
+			frappe.db.set_value("User", user, "default_workspace", "Field Officer")
 
 
 def enforce_strict_user_permissions():
@@ -260,6 +284,11 @@ def seed_field_officers():
 
 	for name, email, home_territory, territories in FIELD_OFFICERS:
 		if not frappe.db.exists("User", email):
+			# default_workspace is set automatically by the User.validate
+			# hook (api.field_officer.set_field_officer_default_workspace)
+			# once the Field Officer role is on the doc - see
+			# backfill_field_officer_default_workspace() for pre-existing
+			# users created before that hook existed.
 			user = frappe.get_doc({
 				"doctype": "User",
 				"email": email,
@@ -268,16 +297,9 @@ def seed_field_officers():
 				"enabled": 1,
 				"user_type": "System User",
 				"roles": [{"role": "Field Officer"}],
-				"default_workspace": "Field Officer",
 			})
 			user.insert(ignore_permissions=True)
 			frappe.utils.password.update_password(email, FIELD_OFFICER_PASSWORD)
-		elif frappe.db.get_value("User", email, "default_workspace") != "Field Officer":
-			# Backfill for officers created by an older version of this
-			# function, before default_workspace was set - without this they
-			# land on the generic Home dashboard instead of their own
-			# scoped workspace on login.
-			frappe.db.set_value("User", email, "default_workspace", "Field Officer")
 
 		if not frappe.db.exists("Employee", {"user_id": email}):
 			frappe.get_doc({

@@ -143,6 +143,9 @@ doc_events = {
 	"Customer": {
 		"validate": "tijarat_app.api.field_officer.validate_customer_territory",
 	},
+	"User": {
+		"validate": "tijarat_app.api.field_officer.set_field_officer_default_workspace",
+	},
 }
 
 # --- Permission Scoping ---------------------------------------------------
