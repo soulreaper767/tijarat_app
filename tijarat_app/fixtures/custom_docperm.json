@@ -410,7 +410,8 @@
   "permlevel": 0,
   "name": "tijarat-contact-field-officer",
   "read": 1,
-  "write": 1
+  "write": 1,
+  "create": 1
  },
  {
   "doctype": "Custom DocPerm",
@@ -421,7 +422,30 @@
   "permlevel": 0,
   "name": "tijarat-address-field-officer",
   "read": 1,
-  "write": 1
+  "write": 1,
+  "create": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Territory",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-territory-field-officer",
+  "read": 1,
+  "select": 1
+ },
+ {
+  "doctype": "Custom DocPerm",
+  "parent": "Customer Group",
+  "parenttype": "DocType",
+  "parentfield": "permissions",
+  "role": "Field Officer",
+  "permlevel": 0,
+  "name": "tijarat-customer-group-field-officer",
+  "read": 1,
+  "select": 1
  },
  {
   "doctype": "Custom DocPerm",

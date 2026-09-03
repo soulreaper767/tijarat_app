@@ -146,6 +146,9 @@ doc_events = {
 	"User": {
 		"validate": "tijarat_app.api.field_officer.set_field_officer_default_workspace",
 	},
+	"Sales Person": {
+		"on_update": "tijarat_app.api.field_officer.sync_sales_person_territory_permissions",
+	},
 }
 
 # --- Permission Scoping ---------------------------------------------------

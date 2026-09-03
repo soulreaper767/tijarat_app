@@ -43,19 +43,11 @@ def _own_sales_person(user):
 @frappe.whitelist()
 def assign_field_officer_territories(sales_person, territories):
 	"""Give a Field Officer (Sales Person) authority over one or more
-	Territories - called by a Territory Manager/Platform Admin, not
-	self-service (unlike api.territory.add_served_territory, which lets a
-	Customer/Supplier manage their own record). Sets up two things:
-
-	1. The Sales Person's own `served_territories` table (added as a
-	   Custom Field, same Territory Coverage child table Customer/Supplier
-	   already use) - for display, and for validate_customer_territory()
-	   below to check against when this officer registers a new shop.
-	2. A native Frappe User Permission per territory. Frappe's own
-	   permission engine then automatically scopes every doctype with a
-	   Territory link field (Customer, Sales Order, ...) to just these
-	   territories for that officer - no custom list-filtering code needed
-	   for those two doctypes.
+	Territories - callable directly for scripting/seeding, but a Territory
+	Manager doing this day-to-day should just open the Sales Person record
+	in Desk and edit its "Served Territories" table - saving the doc fires
+	sync_sales_person_territory_permissions() below, which does the actual
+	permission work either way.
 
 	`territories` is a list (or JSON-encoded list) of Territory names.
 	"""
@@ -67,8 +59,7 @@ def assign_field_officer_territories(sales_person, territories):
 	sp = frappe.get_doc("Sales Person", sales_person)
 	if not sp.employee:
 		frappe.throw(_("{0} has no linked Employee.").format(sales_person))
-	user = frappe.db.get_value("Employee", sp.employee, "user_id")
-	if not user:
+	if not frappe.db.get_value("Employee", sp.employee, "user_id"):
 		frappe.throw(_("The Employee linked to {0} has no linked User yet.").format(sales_person))
 
 	existing = {row.territory for row in sp.get("served_territories", [])}
@@ -80,26 +71,78 @@ def assign_field_officer_territories(sales_person, territories):
 			})
 			existing.add(territory)
 	sp.save(ignore_permissions=True)
-
-	if not frappe.db.exists(
-		"User Permission", {"user": user, "allow": "Sales Person", "for_value": sales_person}
-	):
-		frappe.get_doc({
-			"doctype": "User Permission", "user": user,
-			"allow": "Sales Person", "for_value": sales_person,
-		}).insert(ignore_permissions=True)
-
-	for territory in territories:
-		if not frappe.db.exists(
-			"User Permission", {"user": user, "allow": "Territory", "for_value": territory}
-		):
-			frappe.get_doc({
-				"doctype": "User Permission", "user": user,
-				"allow": "Territory", "for_value": territory,
-			}).insert(ignore_permissions=True)
-
 	frappe.db.commit()
 	return sorted(existing)
+
+
+def sync_sales_person_territory_permissions(doc, method=None):
+	"""Sales Person.on_update hook - reconciles this officer's Territory/
+	Sales Person User Permissions to exactly match the `served_territories`
+	table as it stands after every save, whether that save came from
+	assign_field_officer_territories() or a Territory Manager editing the
+	table directly on the Sales Person form in Desk. Territories removed
+	from the table actually lose access rather than lingering.
+
+	Permissions are scoped (apply_to_all_doctypes=0) to only the doctypes
+	this isolation model actually cares about - NOT left to apply
+	everywhere. A blanket Territory permission also restricts Territory's
+	own `territory_manager` Link field (to Sales Person); under
+	apply_strict_user_permissions a blank value there reads as a mismatch
+	and silently blocks the officer from even their own assigned Territory
+	record. Scoping avoids that collateral damage entirely."""
+	if not doc.employee:
+		return
+	user = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if not user:
+		return
+
+	_grant_scoped_user_permission(user, "Sales Person", doc.name, ["Route", "Journey Plan Visit"])
+	_remove_unscoped_user_permissions(user, "Sales Person", doc.name)
+
+	wanted = {row.territory for row in doc.get("served_territories", []) if row.territory}
+	have = {}
+	for row in frappe.get_all(
+		"User Permission",
+		filters={"user": user, "allow": "Territory", "applicable_for": ["in", ["Customer", "Sales Order"]]},
+		fields=["name", "for_value"],
+	):
+		have.setdefault(row.for_value, []).append(row.name)
+
+	for territory in wanted:
+		if territory not in have:
+			_grant_scoped_user_permission(user, "Territory", territory, ["Customer", "Sales Order"])
+		_remove_unscoped_user_permissions(user, "Territory", territory)
+
+	for territory, names in have.items():
+		if territory not in wanted:
+			for name in names:
+				frappe.delete_doc("User Permission", name, ignore_permissions=True)
+
+	frappe.db.commit()
+
+
+def _grant_scoped_user_permission(user, allow, for_value, applicable_for):
+	for doctype in applicable_for:
+		if not frappe.db.exists("User Permission", {
+			"user": user, "allow": allow, "for_value": for_value, "applicable_for": doctype,
+		}):
+			frappe.get_doc({
+				"doctype": "User Permission", "user": user,
+				"allow": allow, "for_value": for_value,
+				"apply_to_all_doctypes": 0, "applicable_for": doctype,
+			}).insert(ignore_permissions=True)
+
+
+def _remove_unscoped_user_permissions(user, allow, for_value):
+	"""Cleans up the old-style (apply_to_all_doctypes=1) permission rows
+	this function used to create, before scoping was added - self-healing
+	for any site that already ran the earlier version of this code."""
+	for name in frappe.get_all(
+		"User Permission",
+		filters={"user": user, "allow": allow, "for_value": for_value, "apply_to_all_doctypes": 1},
+		pluck="name",
+	):
+		frappe.delete_doc("User Permission", name, ignore_permissions=True)
 
 
 def validate_customer_territory(doc, method=None):
