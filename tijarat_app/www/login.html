@@ -153,7 +153,14 @@ window.csrf_token = "{{ csrf_token }}";
           showMsg(extractErrorMessage(result.body));
           return;
         }
-        window.location.href = '/home';
+        // Server computes the right landing page per user (e.g. internal
+        // staff like Field Officers go to their own Desk workspace) via
+        // frappe.auth's home_page in the login response - default to the
+        // customer/supplier portal dashboard only when that's not a Desk
+        // path, so this keeps working for retailer/supplier logins exactly
+        // as before.
+        var homePage = ((result.body && result.body.home_page) || '').replace(/^\/+/, '');
+        window.location.href = homePage.indexOf('desk') === 0 ? '/' + homePage : '/home';
       })
       .catch(function () {
         submitBtn.disabled = false;
