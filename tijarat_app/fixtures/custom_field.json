@@ -597,5 +597,16 @@
   "options": "Item Group Default Attribute",
   "insert_after": "item_group_name",
   "name": "Item Group-default_item_attributes"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Sales Person",
+  "fieldname": "served_territories",
+  "label": "Served Territories",
+  "fieldtype": "Table",
+  "options": "Territory Coverage",
+  "insert_after": "department",
+  "description": "Every territory this Field Officer / Sales Person is authorised to onboard shops in and see data for - a Route still needs its own single territory for visit scheduling, but this is the broader assignment.",
+  "name": "Sales Person-served_territories"
  }
 ]

@@ -112,6 +112,23 @@ def bootstrap_erpnext_defaults():
 		if not frappe.db.exists("Warehouse Type", warehouse_type):
 			frappe.get_doc({"doctype": "Warehouse Type", "name": warehouse_type}).insert(ignore_permissions=True)
 
+	# Sales Person is a NestedSet doctype that expects exactly one real root -
+	# ERPNext's setup wizard normally creates this ("Sales Team", see
+	# install_fixtures.py) which never ran on this site. Without it,
+	# SalesPerson.validate()'s own `parent_sales_person = get_root_of(...)`
+	# fallback has no genuine root to find and instead treats whichever
+	# parentless Sales Person it hits first as "the root", corrupting the
+	# tree and throwing NestedSetRecursionError the moment a second one is
+	# saved. Every real Sales Person (Field Officers included) must nest
+	# under this.
+	if not frappe.db.exists("Sales Person", "Sales Team"):
+		frappe.get_doc({
+			"doctype": "Sales Person",
+			"sales_person_name": "Sales Team",
+			"is_group": 1,
+			"parent_sales_person": "",
+		}).insert(ignore_permissions=True)
+
 	# Platform's own operating entity - not a marketplace Customer/Supplier -
 	# needed as the Company on internal Employee/Sales Person records. Name
 	# is a placeholder; rename the Company record directly if a different
@@ -202,24 +219,34 @@ def seed_territories():
 
 FIELD_OFFICER_PASSWORD = "test123"
 FIELD_OFFICERS = [
-	# name, email, home territory (one of the Lahore sub-areas seeded above)
-	("Field Officer - Gulberg", "fieldofficer.gulberg@tijarat.test", "Gulberg"),
-	("Field Officer - Model Town", "fieldofficer.modeltown@tijarat.test", "Model Town"),
-	("Field Officer - Johar Town", "fieldofficer.johartown@tijarat.test", "Johar Town"),
-	("Field Officer - DHA", "fieldofficer.dha@tijarat.test", "DHA Lahore"),
-	("Field Officer - Iqbal Town", "fieldofficer.iqbaltown@tijarat.test", "Iqbal Town"),
+	# name, email, home territory (Route/visit-scheduling), all assigned territories
+	("Field Officer - Gulberg", "fieldofficer.gulberg@tijarat.test", "Gulberg",
+		["Gulberg", "Model Town"]),
+	("Field Officer - Model Town", "fieldofficer.modeltown@tijarat.test", "Model Town",
+		["Model Town", "Johar Town"]),
+	("Field Officer - Johar Town", "fieldofficer.johartown@tijarat.test", "Johar Town",
+		["Johar Town", "Faisal Town"]),
+	("Field Officer - DHA", "fieldofficer.dha@tijarat.test", "DHA Lahore",
+		["DHA Lahore", "Lahore Cantt"]),
+	("Field Officer - Iqbal Town", "fieldofficer.iqbaltown@tijarat.test", "Iqbal Town",
+		["Iqbal Town", "Township"]),
 ]
 
 
 def seed_field_officers():
 	"""One test User + Employee + Sales Person + a daily Route per Field
-	Officer, each on a different Lahore territory, so the role can actually
-	be logged into and tested rather than existing only on paper."""
+	Officer, each assigned more than one Lahore territory (see
+	api.field_officer.assign_field_officer_territories), so the role can
+	actually be logged into and tested - including the multi-territory
+	assignment and the resulting data isolation - rather than existing only
+	on paper."""
+	from tijarat_app.api.field_officer import assign_field_officer_territories
+
 	company = frappe.db.get_default("company") or frappe.db.get_value("Company", {}, "name")
 	if not company:
 		return
 
-	for name, email, territory in FIELD_OFFICERS:
+	for name, email, home_territory, territories in FIELD_OFFICERS:
 		if not frappe.db.exists("User", email):
 			user = frappe.get_doc({
 				"doctype": "User",
@@ -253,6 +280,10 @@ def seed_field_officers():
 				"sales_person_name": name,
 				"employee": employee_name,
 				"enabled": 1,
+				# Nest under the single "Sales Team" root created in
+				# bootstrap_erpnext_defaults() - see the comment there for why
+				# leaving this unset corrupts the tree.
+				"parent_sales_person": "Sales Team",
 			}).insert(ignore_permissions=True)
 
 		route_name = f"{name} - Daily Route"
@@ -261,10 +292,12 @@ def seed_field_officers():
 				"doctype": "Route",
 				"route_name": route_name,
 				"sales_person": name,
-				"territory": territory,
+				"territory": home_territory,
 				"is_active": 1,
 				"repeat_on": "Daily",
 			}).insert(ignore_permissions=True)
+
+		assign_field_officer_territories(name, territories)
 
 
 def seed_customer_groups():

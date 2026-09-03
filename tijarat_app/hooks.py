@@ -31,6 +31,7 @@ fixtures = [
 					"Sales Order Item",
 					"Sales Invoice",
 					"Warehouse",
+					"Sales Person",
 				],
 			]
 		],
@@ -139,6 +140,23 @@ doc_events = {
 	"Delivery Note": {
 		"on_submit": "tijarat_app.api.dispatch.auto_assign_courier",
 	},
+	"Customer": {
+		"validate": "tijarat_app.api.field_officer.validate_customer_territory",
+	},
+}
+
+# --- Permission Scoping ---------------------------------------------------
+# A Field Officer's own work records (Journey Plan Visit, Route - both link
+# to Sales Person) and shop access (Customer, Sales Order - both link to
+# Territory) are scoped by native User Permission records (see
+# api.field_officer.assign_field_officer_territories), not custom query
+# conditions - Frappe already does this natively for any doctype with a
+# matching Link field. Support Ticket and Territory Exception Request have
+# no Sales Person/Territory field of their own to hang a User Permission
+# off, so those two need an explicit query condition instead.
+permission_query_conditions = {
+	"Support Ticket": "tijarat_app.api.field_officer.support_ticket_query_conditions",
+	"Territory Exception Request": "tijarat_app.api.field_officer.territory_exception_request_query_conditions",
 }
 
 # --- Scheduled Jobs -------------------------------------------------------

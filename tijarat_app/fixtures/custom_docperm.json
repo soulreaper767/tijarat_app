@@ -387,7 +387,8 @@
   "name": "tijarat-customer-field-officer",
   "read": 1,
   "write": 1,
-  "report": 1
+  "report": 1,
+  "create": 1
  },
  {
   "doctype": "Custom DocPerm",
