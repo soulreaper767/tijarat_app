@@ -5,6 +5,7 @@ def after_install():
 	bootstrap_erpnext_defaults()
 	seed_customer_groups()
 	enable_common_party_accounting()
+	enforce_strict_user_permissions()
 	seed_territories()
 	seed_field_officers()
 	restrict_field_officer_workspaces()
@@ -19,10 +20,21 @@ def after_migrate():
 	bootstrap_erpnext_defaults()
 	seed_customer_groups()
 	enable_common_party_accounting()
+	enforce_strict_user_permissions()
 	seed_territories()
 	seed_field_officers()
 	restrict_field_officer_workspaces()
 	frappe.db.commit()
+
+
+def enforce_strict_user_permissions():
+	"""Frappe's default (apply_strict_user_permissions = 0) lets ANY record
+	with a blank restricted field (e.g. a Sales Order/Customer saved with no
+	Territory) bypass User Permission scoping entirely and show up for every
+	user, restricted or not - defeating assign_field_officer_territories()'s
+	whole point. Must be on for the "no one should see others' data"
+	guarantee to actually hold for pre-existing/blank-territory records."""
+	frappe.db.set_single_value("System Settings", "apply_strict_user_permissions", 1)
 
 
 IRRELEVANT_WORKSPACES_FOR_FIELD_OFFICER = [
@@ -256,9 +268,16 @@ def seed_field_officers():
 				"enabled": 1,
 				"user_type": "System User",
 				"roles": [{"role": "Field Officer"}],
+				"default_workspace": "Field Officer",
 			})
 			user.insert(ignore_permissions=True)
 			frappe.utils.password.update_password(email, FIELD_OFFICER_PASSWORD)
+		elif frappe.db.get_value("User", email, "default_workspace") != "Field Officer":
+			# Backfill for officers created by an older version of this
+			# function, before default_workspace was set - without this they
+			# land on the generic Home dashboard instead of their own
+			# scoped workspace on login.
+			frappe.db.set_value("User", email, "default_workspace", "Field Officer")
 
 		if not frappe.db.exists("Employee", {"user_id": email}):
 			frappe.get_doc({
