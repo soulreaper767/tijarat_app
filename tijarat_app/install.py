@@ -181,6 +181,17 @@ def bootstrap_erpnext_defaults():
 	if not frappe.db.get_default("company"):
 		frappe.db.set_default("company", company_name)
 
+	# Address.on_update() (erpnext/accounts/custom/address.py) unconditionally
+	# renders address_display via get_address_templates(), which throws if
+	# NO Address Template exists at all - blocking creation of ANY Address
+	# record anywhere in the app (Desk or portal), not just this app's own
+	# pages. ERPNext's setup wizard normally seeds an empty one per country,
+	# which never ran on this site.
+	if not frappe.db.exists("Address Template", "Pakistan"):
+		frappe.get_doc({
+			"doctype": "Address Template", "country": "Pakistan", "is_default": 1,
+		}).insert(ignore_permissions=True)
+
 	if not frappe.get_all("Fiscal Year", limit=1):
 		# Pakistani businesses commonly run a July-June fiscal year.
 		frappe.get_doc({

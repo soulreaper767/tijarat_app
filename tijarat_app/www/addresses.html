@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1B3A5C">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon-192.png">
+<title>My Addresses — Tijarat</title>
+<style>
+  :root {
+    --navy: #1B3A5C; --navy-dark: #142c47; --gold: #E8A33D; --gold-dark: #B8862F;
+    --bg: #F4F1EC; --card: #ffffff; --text: #24303d; --muted: #6b7684; --border: #e2e6ea;
+    --danger: #C0392B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); padding: 20px 16px 48px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  .top { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, var(--navy), var(--navy-dark)); color: #fff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; }
+  .top h1 { font-size: 18px; margin: 0; font-weight: 700; }
+  .back-link { color: #c9d4e0; font-size: 12.5px; text-decoration: none; }
+  .back-link:hover { color: #fff; }
+  .btn { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 10px 18px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+  .btn:hover { background: var(--navy-dark); }
+  .btn.secondary { background: #fff; color: var(--navy); border: 1px solid var(--border); }
+  .btn.danger { background: #fff; color: var(--danger); border: 1px solid #f0d0cc; padding: 6px 12px; font-size: 12px; }
+  .section-title { font-size: 13px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin: 22px 0 12px; display: flex; justify-content: space-between; align-items: center; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; position: relative; }
+  .card .badge { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--navy); background: #eef2f6; padding: 2px 8px; border-radius: 999px; margin-bottom: 8px; }
+  .card .badge.primary { color: var(--gold-dark); background: #fbead2; }
+  .card h3 { font-size: 14px; margin: 0 0 4px; }
+  .card p { font-size: 12.5px; color: var(--muted); margin: 2px 0; }
+  .card .row-actions { margin-top: 10px; }
+  .empty-note { font-size: 12.5px; color: var(--muted); background: #fff; border: 1px dashed var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(20,44,71,0.35); align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: #fff; border-radius: 14px; padding: 24px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
+  .modal h2 { font-size: 16px; margin: 0 0 16px; }
+  label { display: block; font-size: 12.5px; font-weight: 600; margin: 12px 0 5px; }
+  input, select { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; font-family: inherit; }
+  input:focus, select:focus { outline: none; border-color: var(--navy); }
+  .checkbox-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+  .checkbox-row input { width: auto; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .modal-actions .btn { flex: 1; }
+  .msg { margin-top: 12px; padding: 10px 12px; border-radius: 8px; font-size: 13px; display: none; }
+  .msg.error { background: #fdecea; color: var(--danger); display: block; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>My Addresses</h1>
+        <a class="back-link" href="/home">&larr; Back to dashboard</a>
+      </div>
+      <button class="btn secondary" id="addBtn">+ Add Address</button>
+    </div>
+
+    <div class="section-title">Saved Addresses</div>
+    {% if addresses %}
+    <div class="grid" id="addressGrid">
+      {% for a in addresses %}
+      <div class="card" data-name="{{ a.name }}">
+        {% if a.is_primary_address %}<span class="badge primary">Primary</span>{% endif %}
+        <span class="badge">{{ a.address_type }}</span>
+        <h3>{{ a.address_title }}</h3>
+        <p>{{ a.address_line1 }}{% if a.address_line2 %}, {{ a.address_line2 }}{% endif %}</p>
+        <p>{{ a.city }}{% if a.state %}, {{ a.state }}{% endif %}{% if a.pincode %} - {{ a.pincode }}{% endif %}</p>
+        <p>{{ a.country }}</p>
+        {% if a.phone %}<p>{{ a.phone }}</p>{% endif %}
+        <div class="row-actions">
+          <button class="btn danger" onclick="deleteAddress('{{ a.name }}')">Remove</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-note" id="emptyNote">No addresses saved yet - add your shop or delivery address to get started.</div>
+    {% endif %}
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h2>Add Address</h2>
+      <div id="formMsg" class="msg"></div>
+      <form id="addressForm">
+        <label for="address_title">Label (e.g. Main Shop)</label>
+        <input id="address_title" required>
+
+        <label for="address_line1">Address Line 1</label>
+        <input id="address_line1" required>
+
+        <label for="address_line2">Address Line 2</label>
+        <input id="address_line2">
+
+        <label for="city">City</label>
+        <input id="city" required>
+
+        <label for="state">State/Province</label>
+        <input id="state">
+
+        <label for="country">Country</label>
+        <input id="country" value="{{ default_country }}" required>
+
+        <label for="pincode">Postal Code</label>
+        <input id="pincode">
+
+        <label for="phone">Phone</label>
+        <input id="phone">
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="is_shipping_address">
+          <label for="is_shipping_address" style="margin:0;">This is a delivery/shipping address</label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn" id="saveBtn">Save Address</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+window.csrf_token = "{{ csrf_token }}";
+(function () {
+  var backdrop = document.getElementById('modalBackdrop');
+  var form = document.getElementById('addressForm');
+  var msgBox = document.getElementById('formMsg');
+  var saveBtn = document.getElementById('saveBtn');
+
+  document.getElementById('addBtn').addEventListener('click', function () {
+    msgBox.className = 'msg';
+    form.reset();
+    document.getElementById('country').value = "{{ default_country }}";
+    backdrop.className = 'modal-backdrop open';
+  });
+  document.getElementById('cancelBtn').addEventListener('click', function () {
+    backdrop.className = 'modal-backdrop';
+  });
+
+  function call(method, args) {
+    return fetch('/api/method/' + method, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': window.csrf_token || '' },
+      body: JSON.stringify(args)
+    }).then(function (res) {
+      return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+    });
+  }
+
+  function extractErrorMessage(body) {
+    if (body && typeof body.message === 'string' && body.exc_type) return body.message;
+    if (body && Array.isArray(body._server_messages)) {
+      try {
+        var first = JSON.parse(body._server_messages[0]);
+        if (first && first.message) return first.message;
+      } catch (e) { /* fall through */ }
+    }
+    return 'Could not save this address. Please check the details and try again.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msgBox.className = 'msg';
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    call('tijarat_app.www.addresses.add_address', {
+      address_title: document.getElementById('address_title').value.trim(),
+      address_line1: document.getElementById('address_line1').value.trim(),
+      address_line2: document.getElementById('address_line2').value.trim(),
+      city: document.getElementById('city').value.trim(),
+      state: document.getElementById('state').value.trim(),
+      country: document.getElementById('country').value.trim(),
+      pincode: document.getElementById('pincode').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      is_shipping_address: document.getElementById('is_shipping_address').checked ? 1 : 0,
+    }).then(function (result) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Address';
+      if (!result.ok) {
+        msgBox.textContent = extractErrorMessage(result.body);
+        msgBox.className = 'msg error';
+        return;
+      }
+      window.location.reload();
+    }).catch(function () {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Save Address';
+      msgBox.textContent = 'Could not reach the server. Please try again shortly.';
+      msgBox.className = 'msg error';
+    });
+  });
+
+  window.deleteAddress = function (name) {
+    if (!confirm('Remove this address?')) return;
+    call('tijarat_app.www.addresses.delete_address', { address_name: name }).then(function (result) {
+      if (result.ok) {
+        window.location.reload();
+      } else {
+        alert('Could not remove this address.');
+      }
+    });
+  };
+})();
+</script>
+</body>
+</html>
