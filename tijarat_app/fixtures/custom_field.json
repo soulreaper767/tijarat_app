@@ -608,5 +608,71 @@
   "insert_after": "department",
   "description": "Every territory this Field Officer / Sales Person is authorised to onboard shops in and see data for - a Route still needs its own single territory for visit scheduling, but this is the broader assignment.",
   "name": "Sales Person-served_territories"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_address_contact_section",
+  "label": "Shop Address & Contact",
+  "fieldtype": "Section Break",
+  "insert_after": "image",
+  "description": "Kept on the same tab as the shop's own name/group/territory, and synced automatically into a real Address + Contact record (see api.customer.sync_primary_address_contact) - the stock Address & Contact tab's fields only become usable via a popup after the Customer is first saved, which is too many steps for on-the-spot shop registration.",
+  "name": "Customer-shop_address_contact_section"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_address_line1",
+  "label": "Shop Address",
+  "fieldtype": "Data",
+  "insert_after": "shop_address_contact_section",
+  "name": "Customer-shop_address_line1"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_city",
+  "label": "City",
+  "fieldtype": "Data",
+  "insert_after": "shop_address_line1",
+  "name": "Customer-shop_city"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_phone",
+  "label": "Shop Phone",
+  "fieldtype": "Data",
+  "options": "Phone",
+  "insert_after": "shop_city",
+  "name": "Customer-shop_phone"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_contact_column_break",
+  "fieldtype": "Column Break",
+  "insert_after": "shop_phone",
+  "name": "Customer-shop_contact_column_break"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_contact_name",
+  "label": "Contact Person",
+  "fieldtype": "Data",
+  "insert_after": "shop_contact_column_break",
+  "description": "The shopkeeper/owner's name - filling this in creates their primary Contact automatically.",
+  "name": "Customer-shop_contact_name"
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Customer",
+  "fieldname": "shop_contact_mobile",
+  "label": "Contact Mobile",
+  "fieldtype": "Data",
+  "options": "Phone",
+  "insert_after": "shop_contact_name",
+  "name": "Customer-shop_contact_mobile"
  }
 ]

@@ -142,6 +142,7 @@ doc_events = {
 	},
 	"Customer": {
 		"validate": "tijarat_app.api.field_officer.validate_customer_territory",
+		"on_update": "tijarat_app.api.customer.sync_primary_address_contact",
 	},
 	"User": {
 		"validate": "tijarat_app.api.field_officer.set_field_officer_default_workspace",
