@@ -181,6 +181,19 @@ def bootstrap_erpnext_defaults():
 	if not frappe.db.get_default("company"):
 		frappe.db.set_default("company", company_name)
 
+	# Normally set by the setup wizard - without it every Country field
+	# defaults to blank instead of Pakistan, so any form with a required
+	# Country field (the stock Address quick-entry popup, this app's own
+	# /addresses portal page) makes the user pick one every single time.
+	# frappe.db.set_single_value() rather than loading+saving the doc -
+	# this site never ran the setup wizard, so System Settings is also
+	# missing language/time_zone, and a full .save() would fail mandatory
+	# validation on those unrelated fields.
+	if not frappe.db.get_single_value("System Settings", "country"):
+		frappe.db.set_single_value("System Settings", "country", "Pakistan")
+	if not frappe.db.get_default("country"):
+		frappe.db.set_default("country", "Pakistan")
+
 	# Address.on_update() (erpnext/accounts/custom/address.py) unconditionally
 	# renders address_display via get_address_templates(), which throws if
 	# NO Address Template exists at all - blocking creation of ANY Address
